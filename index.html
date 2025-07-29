@@ -308,6 +308,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            perspective: 1000px;
         }
 
         .project-card {
@@ -317,22 +318,44 @@
             border: 1px solid rgba(0, 212, 255, 0.2);
             transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform-style: preserve-3d;
+            transform: translateZ(0);
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) translateZ(20px) rotateX(10deg);
             border-color: rgba(0, 212, 255, 0.5);
             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
         }
 
         .project-image {
-            height: 200px;
-            background: linear-gradient(135deg, #533483 0%, #0f3460 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.1rem;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.3) 0%, rgba(22, 33, 62, 0.3) 100%);
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .project-image::before {
+            opacity: 0;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
         }
 
         .project-content {
@@ -342,6 +365,12 @@
         .project-content h3 {
             margin-bottom: 1rem;
             color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .project-content p {
@@ -370,6 +399,7 @@
             margin-right: auto;
             padding: 0 2rem;
             justify-content: center;
+            perspective: 1000px;
         }
 
         .contact-item {
@@ -381,13 +411,14 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             text-align: center;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
         }
 
         .contact-item:hover {
+            transform: translateY(-10px) translateZ(20px) rotateX(10deg);
             border-color: rgba(0, 212, 255, 0.5);
-            transform: translateY(-5px);
-            background: linear-gradient(135deg, #1a1a2e 0%, #1e2747 100%);
-            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
         }
 
         .contact-item h3 {
@@ -403,11 +434,12 @@
             transition: all 0.3s ease;
             display: inline-block;
             word-break: break-all;
+            transform: translateZ(10px);
         }
 
         .contact-link:hover {
             color: #ff00ff;
-            transform: translateY(-2px);
+            transform: translateZ(10px) translateY(-2px);
         }
 
         /* Chat Bubble */
@@ -608,12 +640,6 @@
                 display: flex;
             }
             
-            @media (min-width: 769px) and (max-width: 1024px) {
-                .contact-info {
-                    grid-template-columns: repeat(2, 1fr);
-                }
-            }
-            
             .skills-grid {
                 grid-template-columns: 1fr;
             }
@@ -782,7 +808,7 @@
                 <p>Express, REST APIs, WebSockets</p>
             </div>
             <div class="skill-card">
-                <div class="skill-icon">�</div>
+                <div class="skill-icon">🐍</div>
                 <h3>Python</h3>
                 <p>Django, Flask, Data Analysis</p>
             </div>
@@ -804,24 +830,24 @@
         <h2>Featured Projects</h2>
         <div class="projects-grid">
             <div class="project-card">
-                <div class="project-image">E-commerce Platform</div>
+                <div class="project-image" style="background-image: url('images/Homezy.png');"></div>
                 <div class="project-content">
-                    <h3>E-commerce Platform</h3>
-                    <p>A comprehensive e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment processing, inventory management, and admin dashboard.</p>
+                    <h3>Homezy</h3>
+                    <p>Homezy is a full-stack rental platform for booking and listing stays, featuring user authentication, property uploads, real-time availability, and secure payments. Built with a responsive UI and dynamic backend to deliver a seamless user experience.</p>
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-image">Task Management System</div>
+                <div class="project-image" style="background-image: url('images/Trinoyon.png');"></div>
                 <div class="project-content">
-                    <h3>Task Management System</h3>
-                    <p>A collaborative task management application with real-time updates, built using Vue.js, Express, and Socket.io for seamless team collaboration and productivity tracking.</p>
+                    <h3>Trinoyon</h3>
+                    <p>Trinoyon is an interactive fundraising website that combines cultural engagement with social impact. It features games, quizzes, a Pujo gallery, and a virtual Pujo space where users can share festival photos and contribute donations to support underprivileged communities.</p>
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-image">Analytics Dashboard</div>
+                <div class="project-image" style="background-image: url('images/Space-Defenders.png');"></div>
                 <div class="project-content">
-                    <h3>Analytics Dashboard</h3>
-                    <p>An interactive analytics dashboard that provides detailed insights and data visualization using React, D3.js, and external APIs for comprehensive business intelligence.</p>
+                    <h3>Space Defenders</h3>
+                    <p>Space Defenders is a fast-paced arcade-style shooter game where players control a spaceship to defend against waves of enemy invaders. It features smooth animations, collision detection, increasing difficulty, and responsive controls.</p>
                 </div>
             </div>
         </div>
@@ -834,19 +860,23 @@
             <p>I'm always interested in new opportunities and exciting projects. Let's connect and discuss how we can work together to bring your ideas to life!</p>
             <div class="contact-info">
                 <div class="contact-item">
-                    <h3>📧 Email</h3>
+                    <div class="skill-icon">📧</div>
+                    <h3>Email</h3>
                     <a href="mailto:arijit.sarkar7156@gmail.com" class="contact-link">arijit.sarkar7156@gmail.com</a>
                 </div>
                 <div class="contact-item">
-                    <h3>📱 Phone</h3>
+                    <div class="skill-icon">📱</div>
+                    <h3>Phone</h3>
                     <a href="tel:+916289610827" class="contact-link">+91 6289610827</a>
                 </div>
                 <div class="contact-item">
-                    <h3>🌐 LinkedIn</h3>
+                    <div class="skill-icon">🌐</div>
+                    <h3>LinkedIn</h3>
                     <a href="https://www.linkedin.com/in/arijit-sarkar-57738a354" class="contact-link" target="_blank">Arijit Sarkar</a>
                 </div>
                 <div class="contact-item">
-                    <h3>💻 Github</h3>
+                    <div class="skill-icon">💻</div>
+                    <h3>Github</h3>
                     <a href="https://github.com/Arijit166" class="contact-link" target="_blank">@Arijit166</a>
                 </div>
             </div>
@@ -922,9 +952,9 @@
             } else if (lowerMessage.includes('experience') || lowerMessage.includes('work')) {
                 return "Arijit has just 1 year of experience in web development, working on various projects from e-commerce platforms to collaborative applications and analytics dashboards. He's passionate about creating innovative digital solutions.";
             } else if (lowerMessage.includes('project')) {
-                return "Some of Arijit's notable projects include a comprehensive e-commerce platform, a real-time task management system, and an interactive analytics dashboard. Each project showcases different aspects of his full-stack capabilities.";
+                return "Some of Arijit's notable projects include Homezy, a full-stack rental platform; Trinoyon, an interactive fundraising website; and Space Defenders, an arcade-style shooter game. Each project showcases different aspects of his full-stack capabilities.";
             } else if (lowerMessage.includes('contact') || lowerMessage.includes('hire') || lowerMessage.includes('email')) {
-                return "You can reach Arijit at arijit@example.com or connect with him on LinkedIn. He's always open to discussing new opportunities and exciting projects!";
+                return "You can reach Arijit at arijit.sarkar7156@gmail.com or connect with him on LinkedIn at Arijit Sarkar. He's always open to discussing new opportunities and exciting projects!";
             } else if (lowerMessage.includes('education') || lowerMessage.includes('background')) {
                 return "Arijit has a strong technical background with continuous learning in modern web technologies. He's passionate about creating digital solutions that solve real-world problems and create meaningful user experiences.";
             } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
