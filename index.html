@@ -19,13 +19,24 @@
             overflow-x: hidden;
         }
 
+        /* Three.js Canvas */
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
         /* Header */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
             padding: 1rem 0;
@@ -99,8 +110,7 @@
 
         /* Hero Section */
         .hero {
-            height: 70vh;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -109,20 +119,7 @@
             position: relative;
             overflow: hidden;
             padding: 2rem 0;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 170, 0, 0.2) 0%, transparent 50%);
-            animation: float 6s ease-in-out infinite;
+            z-index: 2;
         }
 
         .hero-content {
@@ -141,7 +138,7 @@
         }
 
         .hero-content h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 0.75rem;
             background: linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #ff00ff 100%);
             -webkit-background-clip: text;
@@ -160,7 +157,7 @@
 
         .cta-button {
             display: inline-block;
-            padding: 12px 30px;
+            padding: 15px 35px;
             background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
             color: white;
             text-decoration: none;
@@ -168,29 +165,32 @@
             border: none;
             transition: all 0.3s ease;
             animation: fadeInUp 1s ease 0.6s both;
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.4);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
-        }
-
-        .hero-particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(0, 212, 255, 0.6);
-            border-radius: 50%;
-            animation: particleFloat 8s infinite linear;
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.5);
         }
 
         /* Sections */
@@ -198,6 +198,12 @@
             padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            background: transparent;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 2;
         }
 
         h2 {
@@ -242,7 +248,7 @@
             background: linear-gradient(135deg, rgba(26, 26, 46, 0.3) 0%, rgba(22, 33, 62, 0.3) 50%, rgba(83, 52, 131, 0.3) 100%);
             transition: opacity 0.3s ease;
         }
-        
+
         .about-image:hover::before {
             opacity: 0.2;
         }
@@ -263,15 +269,16 @@
         }
 
         .skill-card {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: rgba(0, 0, 0, 0.4);
             padding: 2rem;
             border-radius: 15px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.3);
             text-align: center;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transform-style: preserve-3d;
             transform: translateZ(0);
+            z-index: 3;
         }
 
         .skill-card:hover {
@@ -312,14 +319,15 @@
         }
 
         .project-card {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 15px;
             overflow: hidden;
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.3);
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transform-style: preserve-3d;
             transform: translateZ(0);
+            z-index: 3;
         }
 
         .project-card:hover {
@@ -405,14 +413,15 @@
         .contact-item {
             width: 100%;
             padding: 2rem;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 15px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             text-align: center;
             transform-style: preserve-3d;
             transform: translateZ(0);
+            z-index: 3;
         }
 
         .contact-item:hover {
@@ -442,41 +451,72 @@
             transform: translateZ(10px) translateY(-2px);
         }
 
-        /* Chat Bubble */
-        .chat-bubble {
+        /* 3D Pikachu Chat Bubble */
+        .pikachu-chat-container {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
-            transition: all 0.3s ease;
+            width: 160px;
+            height: 160px;
             z-index: 1001;
-            animation: pulse 2s infinite;
+            pointer-events: all;
+            cursor: pointer;
         }
 
-        .chat-bubble:hover {
+        #pikachu-canvas {
+            width: 100%;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .pikachu-chat-container:hover #pikachu-canvas {
             transform: scale(1.1);
         }
 
-        .chat-bubble::before {
-            content: '💬';
-            font-size: 1.5rem;
+        /* Pikachu Message Bubble */
+        .pikachu-message {
+            position: absolute;
+            bottom: 170px;
+            right: -50px;
+            background: linear-gradient(135deg, rgba(255, 223, 0, 0.95), rgba(255, 193, 7, 0.95));
+            color: #333;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            transform: translateY(10px) scale(0.8);
+            transition: all 0.4s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .pikachu-message::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 60px;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-top-color: #FFD700;
+        }
+
+        .pikachu-message.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         .chat-interface {
             position: fixed;
-            bottom: 100px;
+            bottom: 160px;
             right: 30px;
             width: 350px;
             height: 500px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
             border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
@@ -484,6 +524,7 @@
             flex-direction: column;
             z-index: 1002;
             overflow: hidden;
+            backdrop-filter: blur(15px);
         }
 
         .chat-header {
@@ -501,7 +542,7 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            background: rgba(10, 10, 10, 0.5);
+            background: rgba(10, 10, 10, 0.3);
         }
 
         .message {
@@ -593,23 +634,6 @@
             }
         }
 
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
         /* Responsive Design */
         @media (max-width: 1200px) {
             .skills-grid {
@@ -639,11 +663,11 @@
             .mobile-menu {
                 display: flex;
             }
-            
+
             .skills-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .contact-info {
                 grid-template-columns: 1fr;
                 gap: 1rem;
@@ -669,6 +693,25 @@
                 height: 70vh;
             }
 
+            .pikachu-chat-container {
+                width: 120px;
+                height: 120px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .pikachu-message {
+                bottom: 130px;
+                right: -30px;
+                font-size: 12px;
+                padding: 10px 12px;
+            }
+
+            .pikachu-message::after {
+                right: 40px;
+                border-width: 6px;
+            }
+
             section {
                 padding: 3rem 1rem;
             }
@@ -691,15 +734,25 @@
                 font-size: 1.1rem;
             }
 
-            .chat-bubble {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
+            .pikachu-chat-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .pikachu-message {
+                bottom: 110px;
+                right: -20px;
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+
+            .pikachu-message::after {
+                right: 30px;
+                border-width: 5px;
             }
 
             .chat-interface {
-                bottom: 80px;
+                bottom: 100px;
                 height: 60vh;
             }
         }
@@ -722,8 +775,20 @@
             background: linear-gradient(135deg, #ff00ff 0%, #00d4ff 100%);
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Check if Three.js loaded
+        if (typeof THREE === 'undefined') {
+            console.error('Three.js failed to load');
+        } else {
+            console.log('Three.js loaded successfully');
+        }
+    </script>
 </head>
 <body>
+    <!-- Three.js Canvas -->
+    <canvas id="threejs-canvas"></canvas>
+
     <!-- Header -->
     <header>
         <nav>
@@ -745,17 +810,6 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-particles">
-            <div class="particle" style="left: 10%; animation-delay: 0s; width: 4px; height: 4px;"></div>
-            <div class="particle" style="left: 20%; animation-delay: 2s; width: 6px; height: 6px;"></div>
-            <div class="particle" style="left: 30%; animation-delay: 4s; width: 3px; height: 3px;"></div>
-            <div class="particle" style="left: 40%; animation-delay: 1s; width: 5px; height: 5px;"></div>
-            <div class="particle" style="left: 50%; animation-delay: 3s; width: 4px; height: 4px;"></div>
-            <div class="particle" style="left: 60%; animation-delay: 5s; width: 6px; height: 6px;"></div>
-            <div class="particle" style="left: 70%; animation-delay: 2.5s; width: 3px; height: 3px;"></div>
-            <div class="particle" style="left: 80%; animation-delay: 4.5s; width: 5px; height: 5px;"></div>
-            <div class="particle" style="left: 90%; animation-delay: 1.5s; width: 4px; height: 4px;"></div>
-        </div>
         <div class="hero-content">
             <div class="greeting">Hi, I am</div>
             <h1>Arijit Sarkar</h1>
@@ -883,8 +937,13 @@
         </div>
     </section>
 
-    <!-- Chat Bubble -->
-    <div class="chat-bubble" onclick="toggleChat()"></div>
+    <!-- 3D Pikachu Chat Bubble -->
+    <div class="pikachu-chat-container" onclick="toggleChat()" onmouseenter="showPikachuMessage()" onmouseleave="hidePikachuMessage()">
+        <div class="pikachu-message" id="pikachuMessage">
+            Hi! I am Arijit's Pikachu. How can I help? ⚡
+        </div>
+        <canvas id="pikachu-canvas"></canvas>
+    </div>
 
     <!-- Chat Interface -->
     <div class="chat-interface" id="chatInterface">
@@ -893,7 +952,7 @@
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="message bot-message">
-                Hi! I'm Arijit's AI assistant. Feel free to ask me anything about Arijit's background, skills, projects, or experience! 👋
+                Hi! I'm Arijit's Pikachu. Feel free to ask me anything about Arijit's background, skills, projects, or experience! 👋
             </div>
         </div>
         <div class="chat-input">
@@ -903,6 +962,603 @@
     </div>
 
     <script>
+        // Three.js Scene Setup
+        let scene, camera, renderer, particles, geometryShapes, mouse, raycaster;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        // Pikachu 3D model variables
+        let pikachuScene, pikachuCamera, pikachuRenderer, pikachuMesh;
+        let pikachuContainer, isHoveringPikachu = false;
+
+        function initThreeJS() {
+            // Check if canvas exists
+            const canvas = document.getElementById('threejs-canvas');
+            if (!canvas) {
+                console.error('Three.js canvas not found');
+                return;
+            }
+
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas,
+                alpha: true,
+                antialias: true 
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+
+            // Mouse and Raycaster
+            mouse = new THREE.Vector2();
+            raycaster = new THREE.Raycaster();
+
+            try {
+                // Create particle system
+                createParticleSystem();
+                
+                // Create floating geometric shapes
+                createGeometricShapes();
+                
+                // Create connection lines
+                createConnectionLines();
+                
+                // Event listeners
+                document.addEventListener('mousemove', onMouseMove, false);
+                window.addEventListener('resize', onWindowResize, false);
+                
+                // Start animation
+                animate();
+            } catch (error) {
+                console.error('Error initializing Three.js:', error);
+            }
+        }
+
+        function initPikachu() {
+            const canvas = document.getElementById('pikachu-canvas');
+            const container = document.querySelector('.pikachu-chat-container');
+
+            if (!canvas || !container) {
+                console.error('Pikachu canvas or container not found');
+                return;
+            }
+
+            pikachuContainer = container;
+
+            // Scene setup
+            pikachuScene = new THREE.Scene();
+            pikachuCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+            pikachuRenderer = new THREE.WebGLRenderer({ 
+                canvas: canvas,
+                alpha: true,
+                antialias: true 
+            });
+
+            const size = Math.min(container.clientWidth, container.clientHeight);
+            pikachuRenderer.setSize(size, size);
+            pikachuRenderer.setClearColor(0x000000, 0);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            pikachuScene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            pikachuScene.add(directionalLight);
+
+            // Create Pikachu
+            createDetailedPikachu();
+
+            // Camera position for better view
+            pikachuCamera.position.set(0, 0, 8);
+            pikachuCamera.lookAt(0, -0.2, 0);
+
+            // Mouse events for Pikachu
+            container.addEventListener('mouseenter', () => {
+                isHoveringPikachu = true;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                isHoveringPikachu = false;
+            });
+
+            // Start Pikachu animation
+            animatePikachu();
+        }
+
+        function createDetailedPikachu() {
+            const pikachuGroup = new THREE.Group();
+
+            // Main body (sitting position - rounder like the reference)
+            const bodyGeometry = new THREE.SphereGeometry(1.2, 32, 32);
+            const bodyMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xFFD700,
+                shininess: 30
+            });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = -0.8;
+            body.scale.set(1.1, 0.9, 1);
+            pikachuGroup.add(body);
+
+            // Head (bigger and rounder like classic Pikachu)
+            const headGeometry = new THREE.SphereGeometry(1, 32, 32);
+            const headMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xFFD700,
+                shininess: 30
+            });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 0.3;
+            pikachuGroup.add(head);
+
+            // Ears (long and pointed like in reference)
+            const earGeometry = new THREE.ConeGeometry(0.25, 1.2, 16);
+            const earMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            const leftEar = new THREE.Mesh(earGeometry, earMaterial);
+            leftEar.position.set(-0.5, 1.2, 0);
+            leftEar.rotation.z = -0.3;
+            pikachuGroup.add(leftEar);
+
+            const rightEar = new THREE.Mesh(earGeometry, earMaterial);
+            rightEar.position.set(0.5, 1.2, 0);
+            rightEar.rotation.z = 0.3;
+            pikachuGroup.add(rightEar);
+
+            // Ear tips (black like in reference)
+            const earTipGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+            const earTipMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+
+            const leftEarTip = new THREE.Mesh(earTipGeometry, earTipMaterial);
+            leftEarTip.position.set(-0.6, 1.7, 0);
+            pikachuGroup.add(leftEarTip);
+
+            const rightEarTip = new THREE.Mesh(earTipGeometry, earTipMaterial);
+            rightEarTip.position.set(0.6, 1.7, 0);
+            pikachuGroup.add(rightEarTip);
+
+            // Eyes (large and round like classic Pikachu)
+            const eyeGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+            const eyeMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-0.25, 0.5, 0.85);
+            pikachuGroup.add(leftEye);
+
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(0.25, 0.5, 0.85);
+            pikachuGroup.add(rightEye);
+
+            // Eye highlights (white dots)
+            const highlightGeometry = new THREE.SphereGeometry(0.05, 12, 12);
+            const highlightMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFFFF });
+
+            const leftHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
+            leftHighlight.position.set(-0.22, 0.55, 0.9);
+            pikachuGroup.add(leftHighlight);
+
+            const rightHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
+            rightHighlight.position.set(0.28, 0.55, 0.9);
+            pikachuGroup.add(rightHighlight);
+
+            // Cheeks (red circles like in reference)
+            const cheekGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+            const cheekMaterial = new THREE.MeshPhongMaterial({ color: 0xFF4444 });
+
+            const leftCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
+            leftCheek.position.set(-0.6, 0.2, 0.7);
+            leftCheek.scale.set(1, 1, 0.3);
+            pikachuGroup.add(leftCheek);
+
+            const rightCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
+            rightCheek.position.set(0.6, 0.2, 0.7);
+            rightCheek.scale.set(1, 1, 0.3);
+            pikachuGroup.add(rightCheek);
+
+            // Nose (small black dot)
+            const noseGeometry = new THREE.SphereGeometry(0.03, 8, 8);
+            const noseMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+            const nose = new THREE.Mesh(noseGeometry, noseMaterial);
+            nose.position.set(0, 0.35, 0.95);
+            pikachuGroup.add(nose);
+
+            // Mouth (simple curve)
+            const mouthCurve = new THREE.EllipseCurve(0, 0, 0.15, 0.08, Math.PI, 2 * Math.PI, false, 0);
+            const mouthPoints = mouthCurve.getPoints(20);
+            const mouthGeometry = new THREE.BufferGeometry().setFromPoints(mouthPoints);
+            const mouthMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+            const mouth = new THREE.Line(mouthGeometry, mouthMaterial);
+            mouth.position.set(0, 0.15, 0.95);
+            mouth.rotation.x = Math.PI / 2;
+            pikachuGroup.add(mouth);
+
+            // ARMS (detailed with hands)
+            const armGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.6, 12);
+            const armMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            // Left arm
+            const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+            leftArm.position.set(-0.7, -0.2, 0.3);
+            leftArm.rotation.z = 0.5;
+            leftArm.rotation.x = -0.3;
+            pikachuGroup.add(leftArm);
+
+            // Right arm
+            const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+            rightArm.position.set(0.7, -0.2, 0.3);
+            rightArm.rotation.z = -0.5;
+            rightArm.rotation.x = -0.3;
+            pikachuGroup.add(rightArm);
+
+            // HANDS (detailed with fingers)
+            const handGeometry = new THREE.SphereGeometry(0.18, 16, 16);
+            const handMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            // Left hand
+            const leftHand = new THREE.Mesh(handGeometry, handMaterial);
+            leftHand.position.set(-0.95, -0.6, 0.5);
+            leftHand.scale.set(1, 0.8, 1.2);
+            pikachuGroup.add(leftHand);
+
+            // Right hand
+            const rightHand = new THREE.Mesh(handGeometry, handMaterial);
+            rightHand.position.set(0.95, -0.6, 0.5);
+            rightHand.scale.set(1, 0.8, 1.2);
+            pikachuGroup.add(rightHand);
+
+            // Hand details (fingers)
+            const fingerGeometry = new THREE.SphereGeometry(0.04, 8, 8);
+            const fingerMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            // Left hand fingers
+            for (let i = 0; i < 3; i++) {
+                const finger = new THREE.Mesh(fingerGeometry, fingerMaterial);
+                finger.position.set(-0.95 + (i - 1) * 0.08, -0.75, 0.6);
+                pikachuGroup.add(finger);
+            }
+
+            // Right hand fingers
+            for (let i = 0; i < 3; i++) {
+                const finger = new THREE.Mesh(fingerGeometry, fingerMaterial);
+                finger.position.set(0.95 + (i - 1) * 0.08, -0.75, 0.6);
+                pikachuGroup.add(finger);
+            }
+
+            // LEGS (detailed thighs and shins)
+            const thighGeometry = new THREE.CylinderGeometry(0.18, 0.22, 0.5, 12);
+            const thighMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            // Left thigh
+            const leftThigh = new THREE.Mesh(thighGeometry, thighMaterial);
+            leftThigh.position.set(-0.35, -1.2, -0.1);
+            leftThigh.rotation.x = 0.3;
+            pikachuGroup.add(leftThigh);
+
+            // Right thigh
+            const rightThigh = new THREE.Mesh(thighGeometry, thighMaterial);
+            rightThigh.position.set(0.35, -1.2, -0.1);
+            rightThigh.rotation.x = 0.3;
+            pikachuGroup.add(rightThigh);
+
+            // FEET (detailed with toes)
+            const footGeometry = new THREE.SphereGeometry(0.25, 16, 16);
+            const footMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            // Left foot
+            const leftFoot = new THREE.Mesh(footGeometry, footMaterial);
+            leftFoot.position.set(-0.4, -1.6, 0.2);
+            leftFoot.scale.set(1.2, 0.6, 1.5);
+            pikachuGroup.add(leftFoot);
+
+            // Right foot
+            const rightFoot = new THREE.Mesh(footGeometry, footMaterial);
+            rightFoot.position.set(0.4, -1.6, 0.2);
+            rightFoot.scale.set(1.2, 0.6, 1.5);
+            pikachuGroup.add(rightFoot);
+
+            // Foot details (toes)
+            const toeGeometry = new THREE.SphereGeometry(0.06, 8, 8);
+            const toeMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            // Left foot toes
+            for (let i = 0; i < 3; i++) {
+                const toe = new THREE.Mesh(toeGeometry, toeMaterial);
+                toe.position.set(-0.4 + (i - 1) * 0.12, -1.75, 0.45);
+                pikachuGroup.add(toe);
+            }
+
+            // Right foot toes
+            for (let i = 0; i < 3; i++) {
+                const toe = new THREE.Mesh(toeGeometry, toeMaterial);
+                toe.position.set(0.4 + (i - 1) * 0.12, -1.75, 0.45);
+                pikachuGroup.add(toe);
+            }
+
+            // Lightning bolt tail (iconic shape)
+            const tailGroup = new THREE.Group();
+
+            // Create lightning bolt shape with multiple segments
+            const tailSegments = [
+                { width: 0.15, height: 0.6, x: 0, y: 0 },
+                { width: 0.25, height: 0.4, x: 0.15, y: 0.3 },
+                { width: 0.15, height: 0.5, x: 0, y: 0.6 },
+                { width: 0.2, height: 0.3, x: -0.1, y: 0.9 }
+            ];
+
+            tailSegments.forEach((segment, index) => {
+                const segmentGeometry = new THREE.BoxGeometry(segment.width, segment.height, 0.1);
+                const segmentMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+                const segmentMesh = new THREE.Mesh(segmentGeometry, segmentMaterial);
+                segmentMesh.position.set(segment.x, segment.y, 0);
+                tailGroup.add(segmentMesh);
+            });
+
+            tailGroup.position.set(0, -0.3, -1);
+            tailGroup.rotation.y = -0.2;
+            tailGroup.rotation.x = 0.1;
+            pikachuGroup.add(tailGroup);
+
+            // Add belly marking
+            const bellyGeometry = new THREE.SphereGeometry(0.6, 16, 16);
+            const bellyMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xFFE55C,
+                transparent: true,
+                opacity: 0.8
+            });
+            const belly = new THREE.Mesh(bellyGeometry, bellyMaterial);
+            belly.position.set(0, -0.6, 0.9);
+            belly.scale.set(1, 0.8, 0.3);
+            pikachuGroup.add(belly);
+
+            pikachuMesh = pikachuGroup;
+            pikachuScene.add(pikachuMesh);
+        }
+
+        function animatePikachu() {
+            if (!pikachuRenderer || !pikachuScene || !pikachuCamera || !pikachuMesh) return;
+
+            requestAnimationFrame(animatePikachu);
+
+            const time = Date.now() * 0.002;
+
+            // Gentle floating animation
+            pikachuMesh.position.y = Math.sin(time) * 0.05;
+
+            // Rotation based on hover state
+            if (isHoveringPikachu) {
+                pikachuMesh.rotation.y += 0.03;
+                pikachuMesh.rotation.x = Math.sin(time * 2) * 0.05;
+                pikachuMesh.scale.setScalar(1.05 + Math.sin(time * 3) * 0.02);
+                
+                // Animate arms slightly when hovering
+                if (pikachuMesh.children) {
+                    pikachuMesh.children.forEach((child, index) => {
+                        if (index >= 10 && index <= 13) { // Arms and hands
+                            child.rotation.z += Math.sin(time * 4) * 0.02;
+                        }
+                    });
+                }
+            } else {
+                pikachuMesh.rotation.y += 0.005;
+                pikachuMesh.rotation.x = Math.sin(time) * 0.02;
+                pikachuMesh.scale.setScalar(1);
+            }
+
+            pikachuRenderer.render(pikachuScene, pikachuCamera);
+        }
+
+        function createParticleSystem() {
+            const particleCount = 500;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                
+                positions[i3] = (Math.random() - 0.5) * 200;
+                positions[i3 + 1] = (Math.random() - 0.5) * 200;
+                positions[i3 + 2] = (Math.random() - 0.5) * 100;
+                
+                const colorChoice = Math.random();
+                if (colorChoice < 0.33) {
+                    colors[i3] = 0; colors[i3 + 1] = 0.83; colors[i3 + 2] = 1;
+                } else if (colorChoice < 0.66) {
+                    colors[i3] = 1; colors[i3 + 1] = 0; colors[i3 + 2] = 1;
+                } else {
+                    colors[i3] = 1; colors[i3 + 1] = 0.67; colors[i3 + 2] = 0;
+                }
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 2,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+        }
+
+        function createGeometricShapes() {
+            geometryShapes = new THREE.Group();
+
+            const ambientLight = new THREE.AmbientLight(0x404040, 1);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0x00d4ff, 0.8);
+            directionalLight.position.set(10, 10, 5);
+            scene.add(directionalLight);
+
+            for (let i = 0; i < 8; i++) {
+                let geometry;
+                const shapeType = i % 4;
+                
+                switch(shapeType) {
+                    case 0:
+                        geometry = new THREE.BoxGeometry(2, 2, 2);
+                        break;
+                    case 1:
+                        geometry = new THREE.SphereGeometry(1.5, 8, 6);
+                        break;
+                    case 2:
+                        geometry = new THREE.ConeGeometry(1.5, 3, 8);
+                        break;
+                    case 3:
+                        geometry = new THREE.CylinderGeometry(1, 1, 2, 8);
+                        break;
+                }
+                
+                const colors = [0x00d4ff, 0xff00ff, 0xffaa00];
+                const color = colors[i % colors.length];
+                
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: color,
+                    transparent: true,
+                    opacity: 0.7,
+                    wireframe: i % 2 === 0
+                });
+                
+                const mesh = new THREE.Mesh(geometry, material);
+                
+                mesh.position.set(
+                    (Math.random() - 0.5) * 100,
+                    (Math.random() - 0.5) * 100,
+                    (Math.random() - 0.5) * 50
+                );
+                
+                mesh.userData = {
+                    originalPosition: mesh.position.clone(),
+                    rotationSpeed: {
+                        x: (Math.random() - 0.5) * 0.02,
+                        y: (Math.random() - 0.5) * 0.02,
+                        z: (Math.random() - 0.5) * 0.02
+                    }
+                };
+                
+                geometryShapes.add(mesh);
+            }
+            
+            scene.add(geometryShapes);
+        }
+
+        function createConnectionLines() {
+            const lineGeometry = new THREE.BufferGeometry();
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x00d4ff,
+                transparent: true,
+                opacity: 0.3,
+                blending: THREE.AdditiveBlending
+            });
+
+            const positions = [];
+            for (let i = 0; i < geometryShapes.children.length - 1; i++) {
+                if (Math.random() > 0.7) {
+                    const shape1 = geometryShapes.children[i];
+                    const shape2 = geometryShapes.children[i + 1];
+                    
+                    positions.push(
+                        shape1.position.x, shape1.position.y, shape1.position.z,
+                        shape2.position.x, shape2.position.y, shape2.position.z
+                    );
+                }
+            }
+
+            lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lines);
+        }
+
+        function onMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) / 100;
+            mouseY = (event.clientY - windowHalfY) / 100;
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Resize Pikachu canvas
+            if (pikachuRenderer && pikachuContainer) {
+                const size = Math.min(pikachuContainer.clientWidth, pikachuContainer.clientHeight);
+                pikachuRenderer.setSize(size, size);
+            }
+        }
+
+        function animate() {
+            if (!renderer || !scene || !camera) return;
+
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.001;
+
+            if (particles) {
+                particles.rotation.y = time * 0.1;
+                particles.rotation.x = time * 0.05;
+                
+                const positions = particles.geometry.attributes.position.array;
+                for (let i = 0; i < positions.length; i += 3) {
+                    positions[i + 1] += Math.sin(time + positions[i] * 0.01) * 0.1;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+            }
+
+            if (geometryShapes && geometryShapes.children) {
+                geometryShapes.children.forEach((shape, index) => {
+                    if (!shape.userData) return;
+                    
+                    shape.rotation.x += shape.userData.rotationSpeed.x;
+                    shape.rotation.y += shape.userData.rotationSpeed.y;
+                    shape.rotation.z += shape.userData.rotationSpeed.z;
+                    
+                    shape.position.y = shape.userData.originalPosition.y + Math.sin(time + index) * 2;
+                    shape.position.x = shape.userData.originalPosition.x + Math.cos(time + index * 0.5) * 1;
+                    
+                    if (mouseX !== undefined && mouseY !== undefined) {
+                        const distance = Math.sqrt(
+                            Math.pow(shape.position.x - mouseX * 5, 2) +
+                            Math.pow(shape.position.y - mouseY * 5, 2)
+                        );
+                        
+                        if (distance < 15) {
+                            shape.material.opacity = 0.9;
+                            shape.scale.setScalar(1.2);
+                        } else {
+                            shape.material.opacity = 0.7;
+                            shape.scale.setScalar(1);
+                        }
+                    }
+                });
+            }
+
+            if (mouseX !== undefined && mouseY !== undefined) {
+                camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+                camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+            }
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
         // Chat functionality
         let chatOpen = false;
 
@@ -910,6 +1566,18 @@
             const chatInterface = document.getElementById('chatInterface');
             chatOpen = !chatOpen;
             chatInterface.style.display = chatOpen ? 'flex' : 'none';
+        }
+
+        function showPikachuMessage() {
+            const message = document.getElementById('pikachuMessage');
+            if (!chatOpen) {
+                message.classList.add('show');
+            }
+        }
+
+        function hidePikachuMessage() {
+            const message = document.getElementById('pikachuMessage');
+            message.classList.remove('show');
         }
 
         function handleKeyPress(event) {
@@ -924,11 +1592,9 @@
             
             if (message === '') return;
 
-            // Add user message
             addMessage(message, 'user');
             input.value = '';
 
-            // Simulate bot response
             setTimeout(() => {
                 const response = getBotResponse(message);
                 addMessage(response, 'bot');
@@ -948,19 +1614,23 @@
             const lowerMessage = message.toLowerCase();
             
             if (lowerMessage.includes('skill') || lowerMessage.includes('technology')) {
-                return "Arijit specializes in full-stack development with React, Vue.js, Node.js, Python, and cloud technologies. He also has strong UI/UX design skills using Figma and Adobe XD, plus experience with modern databases and DevOps tools.";
+                return "Arijit specializes in full-stack development with HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL. He also has strong UI/UX design skills and experience with modern web technologies!";
             } else if (lowerMessage.includes('experience') || lowerMessage.includes('work')) {
-                return "Arijit has just 1 year of experience in web development, working on various projects from e-commerce platforms to collaborative applications and analytics dashboards. He's passionate about creating innovative digital solutions.";
+                return "Arijit has 1 year of experience in web development, working on various projects from rental platforms to fundraising websites and arcade games. He's passionate about creating innovative digital solutions.";
             } else if (lowerMessage.includes('project')) {
-                return "Some of Arijit's notable projects include Homezy, a full-stack rental platform; Trinoyon, an interactive fundraising website; and Space Defenders, an arcade-style shooter game. Each project showcases different aspects of his full-stack capabilities.";
+                return "Some of Arijit's notable projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game). Each project showcases different aspects of his full-stack capabilities.";
             } else if (lowerMessage.includes('contact') || lowerMessage.includes('hire') || lowerMessage.includes('email')) {
-                return "You can reach Arijit at arijit.sarkar7156@gmail.com or connect with him on LinkedIn at Arijit Sarkar. He's always open to discussing new opportunities and exciting projects!";
+                return "You can reach Arijit at arijit.sarkar7156@gmail.com or connect with him on LinkedIn. He's always open to discussing new opportunities and exciting projects!";
             } else if (lowerMessage.includes('education') || lowerMessage.includes('background')) {
                 return "Arijit has a strong technical background with continuous learning in modern web technologies. He's passionate about creating digital solutions that solve real-world problems and create meaningful user experiences.";
             } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
                 return "Hello! I'm here to help you learn more about Arijit Sarkar. What would you like to know about his skills, experience, projects, or background?";
             } else if (lowerMessage.includes('hobby') || lowerMessage.includes('interest')) {
                 return "When Arijit isn't coding, he enjoys exploring emerging technologies, contributing to open-source projects, reading tech blogs, photography, and traveling to discover new places and cultures.";
+            } else if (lowerMessage.includes('pikachu') || lowerMessage.includes('pokemon')) {
+                return "You noticed my detailed 3D form! I chose this adorable Pokémon as Arijit's chatbot because it represents energy, friendliness, and the spark of creativity that drives his coding journey. Plus, who doesn't love Pikachu? ⚡";
+            } else if (lowerMessage.includes('3d') || lowerMessage.includes('threejs') || lowerMessage.includes('animation')) {
+                return "This portfolio showcases Arijit's interest in cutting-edge web technologies like Three.js for 3D graphics and animations. The interactive background and my detailed 3D Pikachu form with hands and feet demonstrate his ability to create immersive digital experiences!";
             } else {
                 return "That's a great question! Arijit is a versatile full-stack developer with expertise in modern web technologies and a passion for creating innovative solutions. Feel free to ask about his skills, projects, experience, or interests!";
             }
@@ -987,7 +1657,7 @@
                 header.style.background = 'rgba(10, 10, 10, 0.98)';
                 header.style.boxShadow = '0 2px 20px rgba(0, 212, 255, 0.1)';
             } else {
-                header.style.background = 'rgba(10, 10, 10, 0.95)';
+                header.style.background = 'rgba(10, 10, 10, 0.85)';
                 header.style.boxShadow = 'none';
             }
         });
@@ -1003,9 +1673,9 @@
         // Close chat when clicking outside
         document.addEventListener('click', (e) => {
             const chatInterface = document.getElementById('chatInterface');
-            const chatBubble = document.querySelector('.chat-bubble');
+            const pikachuContainer = document.querySelector('.pikachu-chat-container');
             
-            if (chatOpen && !chatInterface.contains(e.target) && !chatBubble.contains(e.target)) {
+            if (chatOpen && !chatInterface.contains(e.target) && !pikachuContainer.contains(e.target)) {
                 toggleChat();
             }
         });
@@ -1025,7 +1695,6 @@
             });
         }, observerOptions);
 
-        // Observe all sections for animations
         document.querySelectorAll('section').forEach(section => {
             section.style.opacity = '0';
             section.style.transform = 'translateY(30px)';
@@ -1033,23 +1702,25 @@
             observer.observe(section);
         });
 
-        // Create additional floating particles
-        function createParticles() {
-            const heroParticles = document.querySelector('.hero-particles');
-            for (let i = 0; i < 15; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.width = (Math.random() * 4 + 2) + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.background = `rgba(${Math.random() > 0.5 ? '0, 212, 255' : '255, 0, 255'}, ${Math.random() * 0.5 + 0.3})`;
-                heroParticles.appendChild(particle);
+        // Initialize Three.js when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.innerWidth < 768) {
+                console.log('Mobile detected, skipping background 3D effects');
+            } else if (typeof THREE !== 'undefined') {
+                setTimeout(() => {
+                    initThreeJS();
+                }, 500);
+            } else {
+                console.error('Three.js not loaded');
             }
-        }
-
-        // Initialize particles
-        createParticles();
+            
+            // Always initialize Pikachu
+            if (typeof THREE !== 'undefined') {
+                setTimeout(() => {
+                    initPikachu();
+                }, 100);
+            }
+        });
     </script>
 </body>
 </html>
