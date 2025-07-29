@@ -362,32 +362,52 @@
 
         .contact-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, minmax(280px, 1fr));
+            gap: 1.5rem;
             margin-top: 3rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 2rem;
+            justify-content: center;
         }
 
         .contact-item {
-            padding: 1.5rem;
+            width: 100%;
+            padding: 2rem;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             border-radius: 15px;
             border: 1px solid rgba(0, 212, 255, 0.2);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
+            text-align: center;
         }
 
         .contact-item:hover {
             border-color: rgba(0, 212, 255, 0.5);
             transform: translateY(-5px);
+            background: linear-gradient(135deg, #1a1a2e 0%, #1e2747 100%);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
         }
 
         .contact-item h3 {
             color: #ffffff;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
         }
 
-        .contact-item p {
+        .contact-link {
             color: #00d4ff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            word-break: break-all;
+        }
+
+        .contact-link:hover {
+            color: #ff00ff;
+            transform: translateY(-2px);
         }
 
         /* Chat Bubble */
@@ -571,6 +591,14 @@
             }
         }
 
+        @media (max-width: 1200px) {
+            .contact-info {
+                grid-template-columns: repeat(2, minmax(300px, 1fr));
+                gap: 1.5rem;
+                max-width: 800px;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -580,8 +608,20 @@
                 display: flex;
             }
             
+            @media (min-width: 769px) and (max-width: 1024px) {
+                .contact-info {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            
             .skills-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 1rem;
             }
 
             .hero-content h1 {
@@ -795,19 +835,19 @@
             <div class="contact-info">
                 <div class="contact-item">
                     <h3>📧 Email</h3>
-                    <a href="mailto:arijit.sarkar7156@gmail.com"></a>
+                    <a href="mailto:arijit.sarkar7156@gmail.com" class="contact-link">arijit.sarkar7156@gmail.com</a>
                 </div>
                 <div class="contact-item">
                     <h3>📱 Phone</h3>
-                    <a href="tel:+916289610827"></a>
+                    <a href="tel:+916289610827" class="contact-link">+91 6289610827</a>
                 </div>
                 <div class="contact-item">
                     <h3>🌐 LinkedIn</h3>
-                    <a href="https://www.linkedin.com/in/arijit-sarkar-57738a354?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app "></a>
+                    <a href="https://www.linkedin.com/in/arijit-sarkar-57738a354" class="contact-link" target="_blank">Arijit Sarkar</a>
                 </div>
                 <div class="contact-item">
-                    <h3>Github</h3>
-                    <a href="https://github.com/Arijit166"></a>
+                    <h3>💻 Github</h3>
+                    <a href="https://github.com/Arijit166" class="contact-link" target="_blank">@Arijit166</a>
                 </div>
             </div>
         </div>
