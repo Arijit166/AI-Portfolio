@@ -827,7 +827,7 @@
             <div class="about-text">
                 <p>I'm Arijit Sarkar, a passionate full-stack developer creating innovative digital solutions. I specialize in modern web technologies and have a keen eye for user experience design that makes applications both functional and beautiful.</p>
                 <p>My journey in technology started with curiosity about how digital systems work, and it has evolved into a career dedicated to building applications that solve real-world problems and create meaningful user experiences.</p>
-                <p>When I'm not coding, you can find me exploring emerging technologies, contributing to open-source projects, reading tech blogs, or enjoying photography and travel.</p>
+                <p>When I'm not coding, you can find me exploring emerging technologies, contributing to open-source projects, reading tech blogs, or enjoying doing theatre and travel.</p>
             </div>
         </div>
     </section>
@@ -962,6 +962,13 @@
     </div>
 
     <script>
+        const myDescription = `
+        I'm Arijit Sarkar, a passionate full-stack developer creating innovative digital solutions. 
+        I specialize in HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL, with a keen eye for UI/UX design. 
+        My projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game). 
+        I have 1 year of experience in web development and enjoy exploring emerging technologies, contributing to open-source projects, doing theatre, and travel. 
+        You can reach me at arijit.sarkar7156@gmail.com or on LinkedIn. I have done my 10th and 12th from Ram Mohan Mission High School, an ICSE Board School located in Kolkata, West Bengal. I am currently pursuing B.Tech (currently in 2nd year) from Heritage Institute of Technology, Kolkata, West Bengal. I live in Kolkata, West Bengal
+       `;
         // Three.js Scene Setup
         let scene, camera, renderer, particles, geometryShapes, mouse, raycaster;
         let mouseX = 0, mouseY = 0;
@@ -1563,10 +1570,18 @@
         let chatOpen = false;
 
         function toggleChat() {
-            const chatInterface = document.getElementById('chatInterface');
-            chatOpen = !chatOpen;
-            chatInterface.style.display = chatOpen ? 'flex' : 'none';
+        const chatInterface = document.getElementById('chatInterface');
+        const chatMessages = document.getElementById('chatMessages');
+        chatOpen = !chatOpen;
+        chatInterface.style.display = chatOpen ? 'flex' : 'none';
+
+        if (chatOpen) {
+            // Clear previous messages
+            chatMessages.innerHTML = '';
+            // Add initial message
+            addMessage("Hi I am Arijit's Pikachu (an AI assistant), what do u want to know about me?", 'bot');
         }
+    }
 
         function showPikachuMessage() {
             const message = document.getElementById('pikachuMessage');
@@ -1610,31 +1625,63 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        function getBotResponse(message) {
-            const lowerMessage = message.toLowerCase();
-            
-            if (lowerMessage.includes('skill') || lowerMessage.includes('technology')) {
-                return "Arijit specializes in full-stack development with HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL. He also has strong UI/UX design skills and experience with modern web technologies!";
-            } else if (lowerMessage.includes('experience') || lowerMessage.includes('work')) {
-                return "Arijit has 1 year of experience in web development, working on various projects from rental platforms to fundraising websites and arcade games. He's passionate about creating innovative digital solutions.";
-            } else if (lowerMessage.includes('project')) {
-                return "Some of Arijit's notable projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game). Each project showcases different aspects of his full-stack capabilities.";
-            } else if (lowerMessage.includes('contact') || lowerMessage.includes('hire') || lowerMessage.includes('email')) {
-                return "You can reach Arijit at arijit.sarkar7156@gmail.com or connect with him on LinkedIn. He's always open to discussing new opportunities and exciting projects!";
-            } else if (lowerMessage.includes('education') || lowerMessage.includes('background')) {
-                return "Arijit has a strong technical background with continuous learning in modern web technologies. He's passionate about creating digital solutions that solve real-world problems and create meaningful user experiences.";
-            } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-                return "Hello! I'm here to help you learn more about Arijit Sarkar. What would you like to know about his skills, experience, projects, or background?";
-            } else if (lowerMessage.includes('hobby') || lowerMessage.includes('interest')) {
-                return "When Arijit isn't coding, he enjoys exploring emerging technologies, contributing to open-source projects, reading tech blogs, photography, and traveling to discover new places and cultures.";
-            } else if (lowerMessage.includes('pikachu') || lowerMessage.includes('pokemon')) {
-                return "You noticed my detailed 3D form! I chose this adorable Pokémon as Arijit's chatbot because it represents energy, friendliness, and the spark of creativity that drives his coding journey. Plus, who doesn't love Pikachu? ⚡";
-            } else if (lowerMessage.includes('3d') || lowerMessage.includes('threejs') || lowerMessage.includes('animation')) {
-                return "This portfolio showcases Arijit's interest in cutting-edge web technologies like Three.js for 3D graphics and animations. The interactive background and my detailed 3D Pikachu form with hands and feet demonstrate his ability to create immersive digital experiences!";
-            } else {
-                return "That's a great question! Arijit is a versatile full-stack developer with expertise in modern web technologies and a passion for creating innovative solutions. Feel free to ask about his skills, projects, experience, or interests!";
+       async function getBotResponse(message) {
+        const apiKey = MY_API_KEY; 
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+        const requestBody = {
+            contents: [{
+                parts: [{
+                    text: `User_message: ${message}. Reply naturally to the user message and if required then answer based on: ${myDescription} or just simply give a friendly reply. Reply in a way that Arijit Sarkar is himself talking. Reply in short sentences.`
+                }]
+            }]
+        };
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API request failed with status ${response.status}`);
             }
+
+            const data = await response.json();
+            // Extract the generated text from the API response
+            const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process that. Try again!";
+            return generatedText;
+        } catch (error) {
+            console.error('Error fetching Gemini API:', error);
+            return "Oops, something went wrong. Please try again!";
         }
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        
+        if (message === '') return;
+
+        addMessage(message, 'user');
+        input.value = '';
+
+        // Show a loading message
+        addMessage('Thinking...', 'bot');
+
+        // Get response from Gemini API
+        const response = await getBotResponse(message);
+
+        // Remove the loading message
+        const messagesContainer = document.getElementById('chatMessages');
+        messagesContainer.removeChild(messagesContainer.lastChild);
+
+        // Add the actual response
+        addMessage(response, 'bot');
+    }
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
