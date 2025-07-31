@@ -1,0 +1,27 @@
+{
+  "name": "ai-portfolio",
+  "version": "1.0.0",
+  "description": "Welcome to my **AI + Web Development Portfolio**, showcasing projects where artificial intelligence meets full-stack web development. This repo highlights how I integrate intelligent systems like ChatGPT, LangChain, and custom ML models into real-world web applications.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arijit166/AI-Portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arijit166/AI-Portfolio/issues"
+  },
+  "homepage": "https://github.com/Arijit166/AI-Portfolio#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  }
+}

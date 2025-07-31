@@ -984,14 +984,6 @@
   const analytics = getAnalytics(app);
     </script>
     <script>
-       
-        const myDescription = `
-        I'm Arijit Sarkar, a passionate full-stack developer creating innovative digital solutions. 
-        I specialize in HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL, with a keen eye for UI/UX design. 
-        My projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game). 
-        I have 1 year of experience in web development and enjoy exploring emerging technologies, contributing to open-source projects, doing theatre, and travel. 
-        You can reach me at arijit.sarkar7156@gmail.com or on LinkedIn. I have done my 10th and 12th from Ram Mohan Mission High School, an ICSE Board School located in Kolkata, West Bengal. I am currently pursuing B.Tech (currently in 2nd year) from Heritage Institute of Technology, Kolkata, West Bengal. I live in Kolkata, West Bengal
-       `;
         // Three.js Scene Setup
         let scene, camera, renderer, particles, geometryShapes, mouse, raycaster;
         let mouseX = 0, mouseY = 0;
@@ -1589,22 +1581,22 @@
             renderer.render(scene, camera);
         }
 
-        // Chat functionality
+     // Chat functionality
         let chatOpen = false;
 
         function toggleChat() {
-        const chatInterface = document.getElementById('chatInterface');
-        const chatMessages = document.getElementById('chatMessages');
-        chatOpen = !chatOpen;
-        chatInterface.style.display = chatOpen ? 'flex' : 'none';
+            const chatInterface = document.getElementById('chatInterface');
+            const chatMessages = document.getElementById('chatMessages');
+            chatOpen = !chatOpen;
+            chatInterface.style.display = chatOpen ? 'flex' : 'none';
 
-        if (chatOpen) {
-            // Clear previous messages
-            chatMessages.innerHTML = '';
-            // Add initial message
-            addMessage("Hi I am Arijit's Pikachu (an AI assistant), what do u want to know about me?", 'bot');
+            if (chatOpen) {
+                // Clear previous messages
+                chatMessages.innerHTML = '';
+                // Add initial message
+                addMessage("Hi I am Arijit's Pikachu (an AI assistant), what do u want to know about me?", 'bot');
+            }
         }
-    }
 
         function showPikachuMessage() {
             const message = document.getElementById('pikachuMessage');
@@ -1624,7 +1616,8 @@
             }
         }
 
-        function sendMessage() {
+        // FIXED: Only one async sendMessage function
+        async function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             
@@ -1633,10 +1626,37 @@
             addMessage(message, 'user');
             input.value = '';
 
-            setTimeout(() => {
-                const response = getBotResponse(message);
+            // Show a loading message
+            const loadingMessageDiv = addMessage('Thinking...', 'bot');
+
+            try {
+                console.log('User message:', message); // Debug log
+                
+                // Get response from Gemini API
+                const response = await getBotResponse(message);
+                
+                console.log('Bot response:', response); // Debug log
+
+                // Remove the loading message
+                const messagesContainer = document.getElementById('chatMessages');
+                if (messagesContainer.lastChild) {
+                    messagesContainer.removeChild(messagesContainer.lastChild);
+                }
+
+                // Add the actual response
                 addMessage(response, 'bot');
-            }, 1000);
+            } catch (error) {
+                console.error('Error sending message:', error);
+                
+                // Remove the loading message
+                const messagesContainer = document.getElementById('chatMessages');
+                if (messagesContainer.lastChild) {
+                    messagesContainer.removeChild(messagesContainer.lastChild);
+                }
+                
+                // Add specific error message
+                addMessage(`Error: ${error.message}`, 'bot');
+            }
         }
 
         function addMessage(text, sender) {
@@ -1646,65 +1666,55 @@
             messageDiv.textContent = text;
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return messageDiv; // Return the created element
         }
 
-       async function getBotResponse(message) {
-        const apiKey = 'AIzaSyCk2RAwe3L5fG0NSBUjyrJFfcArvdTKoZ8';
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-        const requestBody = {
-            contents: [{
-                parts: [{
-                    text: `User_message: ${message}. Reply naturally to the user message and if required then answer based on: ${myDescription} or just simply give a friendly reply. Reply in a way that Arijit Sarkar is himself talking. Reply in short sentences.`
-                }]
-            }]
-        };
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
-            });
-
-            if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}`);
-            }
-
-            const data = await response.json();
-            // Extract the generated text from the API response
-            const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process that. Try again!";
-            return generatedText;
-        } catch (error) {
-            console.error('Error fetching Gemini API:', error);
-            return "Oops, something went wrong. Please try again!";
-        }
-    }
-
-    async function sendMessage() {
-        const input = document.getElementById('chatInput');
-        const message = input.value.trim();
+        async function getBotResponse(message) {
+            const myDescription = `
+            I'm Arijit Sarkar, a passionate full-stack developer creating innovative digital solutions. 
+            I specialize in HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL, with a keen eye for UI/UX design. 
+            My projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game). 
+            I have 1 year of experience in web development and enjoy exploring emerging technologies, contributing to open-source projects, doing theatre, and travel. 
+            You can reach me at arijit.sarkar7156@gmail.com or on LinkedIn. I have done my 10th and 12th from Ram Mohan Mission High School, an ICSE Board School located in Kolkata, West Bengal. I am currently pursuing B.Tech (currently in 2nd year) from Heritage Institute of Technology, Kolkata, West Bengal. I live in Kolkata, West Bengal
+        `;
         
-        if (message === '') return;
+            const requestBody = {
+                contents: [{
+                    parts: [{
+                        text: `User_message: ${message}. Reply naturally to the user message and if required then answer based on: ${myDescription} or just simply give a friendly reply. Reply in a way that Arijit Sarkar is himself talking. Reply in short sentences.`
+                    }]
+                }]
+            };
 
-        addMessage(message, 'user');
-        input.value = '';
+            console.log('Sending request to server:', requestBody); // Debug log
 
-        // Show a loading message
-        addMessage('Thinking...', 'bot');
+            try {
+                const response = await fetch('/api/gemini', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
 
-        // Get response from Gemini API
-        const response = await getBotResponse(message);
+                console.log('Server response status:', response.status); // Debug log
 
-        // Remove the loading message
-        const messagesContainer = document.getElementById('chatMessages');
-        messagesContainer.removeChild(messagesContainer.lastChild);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Server error response:', errorData);
+                    throw new Error(`API request failed with status ${response.status}: ${errorData.error || 'Unknown error'}`);
+                }
 
-        // Add the actual response
-        addMessage(response, 'bot');
-    }
+                const data = await response.json();
+                console.log('Server response data:', data); // Debug log
+                
+                const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't process that. Try again!";
+                return generatedText;
+            } catch (error) {
+                console.error('Error fetching Gemini API:', error);
+                throw error; // Re-throw to be handled by sendMessage
+            }
+        }
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
