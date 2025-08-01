@@ -528,12 +528,40 @@
         }
 
         .chat-header {
-            background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-weight: bold;
-        }
+        background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        font-weight: bold;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chat-close {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .chat-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-50%) rotate(90deg);
+    }
 
         .chat-messages {
             flex: 1;
@@ -776,14 +804,6 @@
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        // Check if Three.js loaded
-        if (typeof THREE === 'undefined') {
-            console.error('Three.js failed to load');
-        } else {
-            console.log('Three.js loaded successfully');
-        }
-    </script>
 </head>
 <body>
     <!-- Three.js Canvas -->
@@ -948,7 +968,8 @@
     <!-- Chat Interface -->
     <div class="chat-interface" id="chatInterface">
         <div class="chat-header">
-            Ask anything about Arijit!
+            <span>Ask anything about Arijit!</span>
+            <button class="chat-close" onclick="closeChat()" title="Close Chat">×</button>
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="message bot-message">
@@ -960,15 +981,14 @@
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
+
+    <!-- Firebase Scripts -->
     <script type="module">
-         // Import the functions you need from the SDKs you need
+        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
+        
         // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
             apiKey: "AIzaSyC-ylkj1xsVh6W08hmEEzN2jqsNj7ywGy0",
             authDomain: "arijit-s-portfolio.firebaseapp.com",
@@ -979,71 +999,89 @@
             measurementId: "G-WVC9F9FRLH"
         };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
     </script>
+
+    <!-- Main JavaScript -->
     <script>
-        // Three.js Scene Setup
+        // Global variables
         let scene, camera, renderer, particles, geometryShapes, mouse, raycaster;
         let mouseX = 0, mouseY = 0;
         let windowHalfX = window.innerWidth / 2;
         let windowHalfY = window.innerHeight / 2;
+        let animationId;
 
         // Pikachu 3D model variables
         let pikachuScene, pikachuCamera, pikachuRenderer, pikachuMesh;
         let pikachuContainer, isHoveringPikachu = false;
+        let pikachuAnimationId;
 
+        // Chat functionality
+        let chatOpen = false;
+
+        // Check Three.js availability
+        function checkThreeJS() {
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js failed to load');
+                return false;
+            }
+            console.log('Three.js loaded successfully');
+            return true;
+        }
+
+        // Initialize Three.js background scene
         function initThreeJS() {
-            // Check if canvas exists
+            if (!checkThreeJS()) return;
+
             const canvas = document.getElementById('threejs-canvas');
             if (!canvas) {
                 console.error('Three.js canvas not found');
                 return;
             }
 
-            // Scene
-            scene = new THREE.Scene();
-
-            // Camera
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 50;
-
-            // Renderer
-            renderer = new THREE.WebGLRenderer({ 
-                canvas: canvas,
-                alpha: true,
-                antialias: true 
-            });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setClearColor(0x000000, 0);
-
-            // Mouse and Raycaster
-            mouse = new THREE.Vector2();
-            raycaster = new THREE.Raycaster();
-
             try {
-                // Create particle system
+                // Scene setup
+                scene = new THREE.Scene();
+
+                // Camera setup
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.z = 50;
+
+                // Renderer setup
+                renderer = new THREE.WebGLRenderer({ 
+                    canvas: canvas,
+                    alpha: true,
+                    antialias: true,
+                    powerPreference: "high-performance"
+                });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearColor(0x000000, 0);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                // Initialize mouse and raycaster
+                mouse = new THREE.Vector2();
+                raycaster = new THREE.Raycaster();
+
+                // Create scene elements
                 createParticleSystem();
-                
-                // Create floating geometric shapes
                 createGeometricShapes();
-                
-                // Create connection lines
                 createConnectionLines();
-                
-                // Event listeners
-                document.addEventListener('mousemove', onMouseMove, false);
-                window.addEventListener('resize', onWindowResize, false);
                 
                 // Start animation
                 animate();
+
+                console.log('Three.js background initialized successfully');
             } catch (error) {
-                console.error('Error initializing Three.js:', error);
+                console.error('Error initializing Three.js background:', error);
             }
         }
 
+        // Initialize Pikachu 3D model
         function initPikachu() {
+            if (!checkThreeJS()) return;
+
             const canvas = document.getElementById('pikachu-canvas');
             const container = document.querySelector('.pikachu-chat-container');
 
@@ -1052,331 +1090,50 @@
                 return;
             }
 
-            pikachuContainer = container;
+            try {
+                pikachuContainer = container;
 
-            // Scene setup
-            pikachuScene = new THREE.Scene();
-            pikachuCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-            pikachuRenderer = new THREE.WebGLRenderer({ 
-                canvas: canvas,
-                alpha: true,
-                antialias: true 
-            });
+                // Scene setup
+                pikachuScene = new THREE.Scene();
+                pikachuCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+                pikachuRenderer = new THREE.WebGLRenderer({ 
+                    canvas: canvas,
+                    alpha: true,
+                    antialias: true
+                });
 
-            const size = Math.min(container.clientWidth, container.clientHeight);
-            pikachuRenderer.setSize(size, size);
-            pikachuRenderer.setClearColor(0x000000, 0);
+                const size = Math.min(container.clientWidth, container.clientHeight);
+                pikachuRenderer.setSize(size, size);
+                pikachuRenderer.setClearColor(0x000000, 0);
+                pikachuRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-            pikachuScene.add(ambientLight);
+                // Lighting setup
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+                pikachuScene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-            directionalLight.position.set(5, 5, 5);
-            pikachuScene.add(directionalLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+                directionalLight.position.set(5, 5, 5);
+                pikachuScene.add(directionalLight);
 
-            // Create Pikachu
-            createDetailedPikachu();
+                // Create Pikachu model
+                createDetailedPikachu();
 
-            // Camera position for better view
-            pikachuCamera.position.set(0, 0, 8);
-            pikachuCamera.lookAt(0, -0.2, 0);
+                // Camera positioning
+                pikachuCamera.position.set(0, 0, 8);
+                pikachuCamera.lookAt(0, -0.2, 0);
 
-            // Mouse events for Pikachu
-            container.addEventListener('mouseenter', () => {
-                isHoveringPikachu = true;
-            });
+                // Start Pikachu animation
+                animatePikachu();
 
-            container.addEventListener('mouseleave', () => {
-                isHoveringPikachu = false;
-            });
-
-            // Start Pikachu animation
-            animatePikachu();
+                console.log('Pikachu 3D model initialized successfully');
+            } catch (error) {
+                console.error('Error initializing Pikachu:', error);
+            }
         }
 
-        function createDetailedPikachu() {
-            const pikachuGroup = new THREE.Group();
-
-            // Main body (sitting position - rounder like the reference)
-            const bodyGeometry = new THREE.SphereGeometry(1.2, 32, 32);
-            const bodyMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFD700,
-                shininess: 30
-            });
-            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-            body.position.y = -0.8;
-            body.scale.set(1.1, 0.9, 1);
-            pikachuGroup.add(body);
-
-            // Head (bigger and rounder like classic Pikachu)
-            const headGeometry = new THREE.SphereGeometry(1, 32, 32);
-            const headMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFD700,
-                shininess: 30
-            });
-            const head = new THREE.Mesh(headGeometry, headMaterial);
-            head.position.y = 0.3;
-            pikachuGroup.add(head);
-
-            // Ears (long and pointed like in reference)
-            const earGeometry = new THREE.ConeGeometry(0.25, 1.2, 16);
-            const earMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
-            const leftEar = new THREE.Mesh(earGeometry, earMaterial);
-            leftEar.position.set(-0.5, 1.2, 0);
-            leftEar.rotation.z = -0.3;
-            pikachuGroup.add(leftEar);
-
-            const rightEar = new THREE.Mesh(earGeometry, earMaterial);
-            rightEar.position.set(0.5, 1.2, 0);
-            rightEar.rotation.z = 0.3;
-            pikachuGroup.add(rightEar);
-
-            // Ear tips (black like in reference)
-            const earTipGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-            const earTipMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
-
-            const leftEarTip = new THREE.Mesh(earTipGeometry, earTipMaterial);
-            leftEarTip.position.set(-0.6, 1.7, 0);
-            pikachuGroup.add(leftEarTip);
-
-            const rightEarTip = new THREE.Mesh(earTipGeometry, earTipMaterial);
-            rightEarTip.position.set(0.6, 1.7, 0);
-            pikachuGroup.add(rightEarTip);
-
-            // Eyes (large and round like classic Pikachu)
-            const eyeGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-            const eyeMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
-
-            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-            leftEye.position.set(-0.25, 0.5, 0.85);
-            pikachuGroup.add(leftEye);
-
-            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-            rightEye.position.set(0.25, 0.5, 0.85);
-            pikachuGroup.add(rightEye);
-
-            // Eye highlights (white dots)
-            const highlightGeometry = new THREE.SphereGeometry(0.05, 12, 12);
-            const highlightMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFFFF });
-
-            const leftHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
-            leftHighlight.position.set(-0.22, 0.55, 0.9);
-            pikachuGroup.add(leftHighlight);
-
-            const rightHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
-            rightHighlight.position.set(0.28, 0.55, 0.9);
-            pikachuGroup.add(rightHighlight);
-
-            // Cheeks (red circles like in reference)
-            const cheekGeometry = new THREE.SphereGeometry(0.2, 16, 16);
-            const cheekMaterial = new THREE.MeshPhongMaterial({ color: 0xFF4444 });
-
-            const leftCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
-            leftCheek.position.set(-0.6, 0.2, 0.7);
-            leftCheek.scale.set(1, 1, 0.3);
-            pikachuGroup.add(leftCheek);
-
-            const rightCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
-            rightCheek.position.set(0.6, 0.2, 0.7);
-            rightCheek.scale.set(1, 1, 0.3);
-            pikachuGroup.add(rightCheek);
-
-            // Nose (small black dot)
-            const noseGeometry = new THREE.SphereGeometry(0.03, 8, 8);
-            const noseMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
-            const nose = new THREE.Mesh(noseGeometry, noseMaterial);
-            nose.position.set(0, 0.35, 0.95);
-            pikachuGroup.add(nose);
-
-            // Mouth (simple curve)
-            const mouthCurve = new THREE.EllipseCurve(0, 0, 0.15, 0.08, Math.PI, 2 * Math.PI, false, 0);
-            const mouthPoints = mouthCurve.getPoints(20);
-            const mouthGeometry = new THREE.BufferGeometry().setFromPoints(mouthPoints);
-            const mouthMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
-            const mouth = new THREE.Line(mouthGeometry, mouthMaterial);
-            mouth.position.set(0, 0.15, 0.95);
-            mouth.rotation.x = Math.PI / 2;
-            pikachuGroup.add(mouth);
-
-            // ARMS (detailed with hands)
-            const armGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.6, 12);
-            const armMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
-            // Left arm
-            const leftArm = new THREE.Mesh(armGeometry, armMaterial);
-            leftArm.position.set(-0.7, -0.2, 0.3);
-            leftArm.rotation.z = 0.5;
-            leftArm.rotation.x = -0.3;
-            pikachuGroup.add(leftArm);
-
-            // Right arm
-            const rightArm = new THREE.Mesh(armGeometry, armMaterial);
-            rightArm.position.set(0.7, -0.2, 0.3);
-            rightArm.rotation.z = -0.5;
-            rightArm.rotation.x = -0.3;
-            pikachuGroup.add(rightArm);
-
-            // HANDS (detailed with fingers)
-            const handGeometry = new THREE.SphereGeometry(0.18, 16, 16);
-            const handMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
-            // Left hand
-            const leftHand = new THREE.Mesh(handGeometry, handMaterial);
-            leftHand.position.set(-0.95, -0.6, 0.5);
-            leftHand.scale.set(1, 0.8, 1.2);
-            pikachuGroup.add(leftHand);
-
-            // Right hand
-            const rightHand = new THREE.Mesh(handGeometry, handMaterial);
-            rightHand.position.set(0.95, -0.6, 0.5);
-            rightHand.scale.set(1, 0.8, 1.2);
-            pikachuGroup.add(rightHand);
-
-            // Hand details (fingers)
-            const fingerGeometry = new THREE.SphereGeometry(0.04, 8, 8);
-            const fingerMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
-            // Left hand fingers
-            for (let i = 0; i < 3; i++) {
-                const finger = new THREE.Mesh(fingerGeometry, fingerMaterial);
-                finger.position.set(-0.95 + (i - 1) * 0.08, -0.75, 0.6);
-                pikachuGroup.add(finger);
-            }
-
-            // Right hand fingers
-            for (let i = 0; i < 3; i++) {
-                const finger = new THREE.Mesh(fingerGeometry, fingerMaterial);
-                finger.position.set(0.95 + (i - 1) * 0.08, -0.75, 0.6);
-                pikachuGroup.add(finger);
-            }
-
-            // LEGS (detailed thighs and shins)
-            const thighGeometry = new THREE.CylinderGeometry(0.18, 0.22, 0.5, 12);
-            const thighMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
-            // Left thigh
-            const leftThigh = new THREE.Mesh(thighGeometry, thighMaterial);
-            leftThigh.position.set(-0.35, -1.2, -0.1);
-            leftThigh.rotation.x = 0.3;
-            pikachuGroup.add(leftThigh);
-
-            // Right thigh
-            const rightThigh = new THREE.Mesh(thighGeometry, thighMaterial);
-            rightThigh.position.set(0.35, -1.2, -0.1);
-            rightThigh.rotation.x = 0.3;
-            pikachuGroup.add(rightThigh);
-
-            // FEET (detailed with toes)
-            const footGeometry = new THREE.SphereGeometry(0.25, 16, 16);
-            const footMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
-            // Left foot
-            const leftFoot = new THREE.Mesh(footGeometry, footMaterial);
-            leftFoot.position.set(-0.4, -1.6, 0.2);
-            leftFoot.scale.set(1.2, 0.6, 1.5);
-            pikachuGroup.add(leftFoot);
-
-            // Right foot
-            const rightFoot = new THREE.Mesh(footGeometry, footMaterial);
-            rightFoot.position.set(0.4, -1.6, 0.2);
-            rightFoot.scale.set(1.2, 0.6, 1.5);
-            pikachuGroup.add(rightFoot);
-
-            // Foot details (toes)
-            const toeGeometry = new THREE.SphereGeometry(0.06, 8, 8);
-            const toeMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
-            // Left foot toes
-            for (let i = 0; i < 3; i++) {
-                const toe = new THREE.Mesh(toeGeometry, toeMaterial);
-                toe.position.set(-0.4 + (i - 1) * 0.12, -1.75, 0.45);
-                pikachuGroup.add(toe);
-            }
-
-            // Right foot toes
-            for (let i = 0; i < 3; i++) {
-                const toe = new THREE.Mesh(toeGeometry, toeMaterial);
-                toe.position.set(0.4 + (i - 1) * 0.12, -1.75, 0.45);
-                pikachuGroup.add(toe);
-            }
-
-            // Lightning bolt tail (iconic shape)
-            const tailGroup = new THREE.Group();
-
-            // Create lightning bolt shape with multiple segments
-            const tailSegments = [
-                { width: 0.15, height: 0.6, x: 0, y: 0 },
-                { width: 0.25, height: 0.4, x: 0.15, y: 0.3 },
-                { width: 0.15, height: 0.5, x: 0, y: 0.6 },
-                { width: 0.2, height: 0.3, x: -0.1, y: 0.9 }
-            ];
-
-            tailSegments.forEach((segment, index) => {
-                const segmentGeometry = new THREE.BoxGeometry(segment.width, segment.height, 0.1);
-                const segmentMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-                const segmentMesh = new THREE.Mesh(segmentGeometry, segmentMaterial);
-                segmentMesh.position.set(segment.x, segment.y, 0);
-                tailGroup.add(segmentMesh);
-            });
-
-            tailGroup.position.set(0, -0.3, -1);
-            tailGroup.rotation.y = -0.2;
-            tailGroup.rotation.x = 0.1;
-            pikachuGroup.add(tailGroup);
-
-            // Add belly marking
-            const bellyGeometry = new THREE.SphereGeometry(0.6, 16, 16);
-            const bellyMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFE55C,
-                transparent: true,
-                opacity: 0.8
-            });
-            const belly = new THREE.Mesh(bellyGeometry, bellyMaterial);
-            belly.position.set(0, -0.6, 0.9);
-            belly.scale.set(1, 0.8, 0.3);
-            pikachuGroup.add(belly);
-
-            pikachuMesh = pikachuGroup;
-            pikachuScene.add(pikachuMesh);
-        }
-
-        function animatePikachu() {
-            if (!pikachuRenderer || !pikachuScene || !pikachuCamera || !pikachuMesh) return;
-
-            requestAnimationFrame(animatePikachu);
-
-            const time = Date.now() * 0.002;
-
-            // Gentle floating animation
-            pikachuMesh.position.y = Math.sin(time) * 0.05;
-
-            // Rotation based on hover state
-            if (isHoveringPikachu) {
-                pikachuMesh.rotation.y += 0.03;
-                pikachuMesh.rotation.x = Math.sin(time * 2) * 0.05;
-                pikachuMesh.scale.setScalar(1.05 + Math.sin(time * 3) * 0.02);
-                
-                // Animate arms slightly when hovering
-                if (pikachuMesh.children) {
-                    pikachuMesh.children.forEach((child, index) => {
-                        if (index >= 10 && index <= 13) { // Arms and hands
-                            child.rotation.z += Math.sin(time * 4) * 0.02;
-                        }
-                    });
-                }
-            } else {
-                pikachuMesh.rotation.y += 0.005;
-                pikachuMesh.rotation.x = Math.sin(time) * 0.02;
-                pikachuMesh.scale.setScalar(1);
-            }
-
-            pikachuRenderer.render(pikachuScene, pikachuCamera);
-        }
-
+        // Create particle system for background
         function createParticleSystem() {
-            const particleCount = 500;
+            const particleCount = window.innerWidth < 768 ? 200 : 500;
             const geometry = new THREE.BufferGeometry();
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
@@ -1390,11 +1147,11 @@
                 
                 const colorChoice = Math.random();
                 if (colorChoice < 0.33) {
-                    colors[i3] = 0; colors[i3 + 1] = 0.83; colors[i3 + 2] = 1;
+                    colors[i3] = 0; colors[i3 + 1] = 0.83; colors[i3 + 2] = 1; // Cyan
                 } else if (colorChoice < 0.66) {
-                    colors[i3] = 1; colors[i3 + 1] = 0; colors[i3 + 2] = 1;
+                    colors[i3] = 1; colors[i3 + 1] = 0; colors[i3 + 2] = 1; // Magenta
                 } else {
-                    colors[i3] = 1; colors[i3 + 1] = 0.67; colors[i3 + 2] = 0;
+                    colors[i3] = 1; colors[i3 + 1] = 0.67; colors[i3 + 2] = 0; // Orange
                 }
             }
 
@@ -1402,7 +1159,7 @@
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             const material = new THREE.PointsMaterial({
-                size: 2,
+                size: window.innerWidth < 768 ? 1.5 : 2,
                 vertexColors: true,
                 transparent: true,
                 opacity: 0.8,
@@ -1413,9 +1170,11 @@
             scene.add(particles);
         }
 
+        // Create floating geometric shapes
         function createGeometricShapes() {
             geometryShapes = new THREE.Group();
 
+            // Lighting for shapes
             const ambientLight = new THREE.AmbientLight(0x404040, 1);
             scene.add(ambientLight);
 
@@ -1423,7 +1182,9 @@
             directionalLight.position.set(10, 10, 5);
             scene.add(directionalLight);
 
-            for (let i = 0; i < 8; i++) {
+            const shapeCount = window.innerWidth < 768 ? 4 : 8;
+
+            for (let i = 0; i < shapeCount; i++) {
                 let geometry;
                 const shapeType = i % 4;
                 
@@ -1475,7 +1236,10 @@
             scene.add(geometryShapes);
         }
 
+        // Create connection lines between shapes
         function createConnectionLines() {
+            if (!geometryShapes || geometryShapes.children.length < 2) return;
+
             const lineGeometry = new THREE.BufferGeometry();
             const lineMaterial = new THREE.LineBasicMaterial({
                 color: 0x00d4ff,
@@ -1497,42 +1261,160 @@
                 }
             }
 
-            lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-            scene.add(lines);
-        }
-
-        function onMouseMove(event) {
-            mouseX = (event.clientX - windowHalfX) / 100;
-            mouseY = (event.clientY - windowHalfY) / 100;
-
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        }
-
-        function onWindowResize() {
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-
-            renderer.setSize(window.innerWidth, window.innerHeight);
-
-            // Resize Pikachu canvas
-            if (pikachuRenderer && pikachuContainer) {
-                const size = Math.min(pikachuContainer.clientWidth, pikachuContainer.clientHeight);
-                pikachuRenderer.setSize(size, size);
+            if (positions.length > 0) {
+                lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+                const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+                scene.add(lines);
             }
         }
 
+        // Create detailed Pikachu model
+        function createDetailedPikachu() {
+            const pikachuGroup = new THREE.Group();
+
+            // Main body
+            const bodyGeometry = new THREE.SphereGeometry(1.2, 32, 32);
+            const bodyMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xFFD700,
+                shininess: 30
+            });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = -0.8;
+            body.scale.set(1.1, 0.9, 1);
+            pikachuGroup.add(body);
+
+            // Head
+            const headGeometry = new THREE.SphereGeometry(1, 32, 32);
+            const headMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xFFD700,
+                shininess: 30
+            });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 0.3;
+            pikachuGroup.add(head);
+
+            // Ears
+            const earGeometry = new THREE.ConeGeometry(0.25, 1.2, 16);
+            const earMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            const leftEar = new THREE.Mesh(earGeometry, earMaterial);
+            leftEar.position.set(-0.5, 1.2, 0);
+            leftEar.rotation.z = -0.3;
+            pikachuGroup.add(leftEar);
+
+            const rightEar = new THREE.Mesh(earGeometry, earMaterial);
+            rightEar.position.set(0.5, 1.2, 0);
+            rightEar.rotation.z = 0.3;
+            pikachuGroup.add(rightEar);
+
+            // Ear tips
+            const earTipGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+            const earTipMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+
+            const leftEarTip = new THREE.Mesh(earTipGeometry, earTipMaterial);
+            leftEarTip.position.set(-0.6, 1.7, 0);
+            pikachuGroup.add(leftEarTip);
+
+            const rightEarTip = new THREE.Mesh(earTipGeometry, earTipMaterial);
+            rightEarTip.position.set(0.6, 1.7, 0);
+            pikachuGroup.add(rightEarTip);
+
+            // Eyes
+            const eyeGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+            const eyeMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-0.25, 0.5, 0.85);
+            pikachuGroup.add(leftEye);
+
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(0.25, 0.5, 0.85);
+            pikachuGroup.add(rightEye);
+
+            // Eye highlights
+            const highlightGeometry = new THREE.SphereGeometry(0.05, 12, 12);
+            const highlightMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFFFF });
+
+            const leftHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
+            leftHighlight.position.set(-0.22, 0.55, 0.9);
+            pikachuGroup.add(leftHighlight);
+
+            const rightHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
+            rightHighlight.position.set(0.28, 0.55, 0.9);
+            pikachuGroup.add(rightHighlight);
+
+            // Cheeks
+            const cheekGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+            const cheekMaterial = new THREE.MeshPhongMaterial({ color: 0xFF4444 });
+
+            const leftCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
+            leftCheek.position.set(-0.6, 0.2, 0.7);
+            leftCheek.scale.set(1, 1, 0.3);
+            pikachuGroup.add(leftCheek);
+
+            const rightCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
+            rightCheek.position.set(0.6, 0.2, 0.7);
+            rightCheek.scale.set(1, 1, 0.3);
+            pikachuGroup.add(rightCheek);
+
+            // Nose
+            const noseGeometry = new THREE.SphereGeometry(0.03, 8, 8);
+            const noseMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+            const nose = new THREE.Mesh(noseGeometry, noseMaterial);
+            nose.position.set(0, 0.35, 0.95);
+            pikachuGroup.add(nose);
+
+            // Arms
+            const armGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.6, 12);
+            const armMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+
+            const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+            leftArm.position.set(-0.7, -0.2, 0.3);
+            leftArm.rotation.z = 0.5;
+            leftArm.rotation.x = -0.3;
+            pikachuGroup.add(leftArm);
+
+            const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+            rightArm.position.set(0.7, -0.2, 0.3);
+            rightArm.rotation.z = -0.5;
+            rightArm.rotation.x = -0.3;
+            pikachuGroup.add(rightArm);
+
+            // Lightning bolt tail
+            const tailGroup = new THREE.Group();
+            const tailSegments = [
+                { width: 0.15, height: 0.6, x: 0, y: 0 },
+                { width: 0.25, height: 0.4, x: 0.15, y: 0.3 },
+                { width: 0.15, height: 0.5, x: 0, y: 0.6 },
+                { width: 0.2, height: 0.3, x: -0.1, y: 0.9 }
+            ];
+
+            tailSegments.forEach((segment, index) => {
+                const segmentGeometry = new THREE.BoxGeometry(segment.width, segment.height, 0.1);
+                const segmentMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
+                const segmentMesh = new THREE.Mesh(segmentGeometry, segmentMaterial);
+                segmentMesh.position.set(segment.x, segment.y, 0);
+                tailGroup.add(segmentMesh);
+            });
+
+            tailGroup.position.set(0, -0.3, -1);
+            tailGroup.rotation.y = -0.2;
+            tailGroup.rotation.x = 0.1;
+            pikachuGroup.add(tailGroup);
+
+            pikachuMesh = pikachuGroup;
+            pikachuScene.add(pikachuMesh);
+        }
+
+        // Animation loop for background scene
         function animate() {
             if (!renderer || !scene || !camera) return;
 
-            requestAnimationFrame(animate);
+            animationId = requestAnimationFrame(animate);
 
             const time = Date.now() * 0.001;
 
+            // Animate particles
             if (particles) {
                 particles.rotation.y = time * 0.1;
                 particles.rotation.x = time * 0.05;
@@ -1544,6 +1426,7 @@
                 particles.geometry.attributes.position.needsUpdate = true;
             }
 
+            // Animate geometric shapes
             if (geometryShapes && geometryShapes.children) {
                 geometryShapes.children.forEach((shape, index) => {
                     if (!shape.userData) return;
@@ -1555,6 +1438,7 @@
                     shape.position.y = shape.userData.originalPosition.y + Math.sin(time + index) * 2;
                     shape.position.x = shape.userData.originalPosition.x + Math.cos(time + index * 0.5) * 1;
                     
+                    // Mouse interaction
                     if (mouseX !== undefined && mouseY !== undefined) {
                         const distance = Math.sqrt(
                             Math.pow(shape.position.x - mouseX * 5, 2) +
@@ -1572,6 +1456,7 @@
                 });
             }
 
+            // Camera movement based on mouse
             if (mouseX !== undefined && mouseY !== undefined) {
                 camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
                 camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
@@ -1581,9 +1466,58 @@
             renderer.render(scene, camera);
         }
 
-     // Chat functionality
-        let chatOpen = false;
+        // Animation loop for Pikachu
+        function animatePikachu() {
+            if (!pikachuRenderer || !pikachuScene || !pikachuCamera || !pikachuMesh) return;
 
+            pikachuAnimationId = requestAnimationFrame(animatePikachu);
+
+            const time = Date.now() * 0.002;
+
+            // Gentle floating animation
+            pikachuMesh.position.y = Math.sin(time) * 0.05;
+
+            // Rotation based on hover state
+            if (isHoveringPikachu) {
+                pikachuMesh.rotation.y += 0.03;
+                pikachuMesh.rotation.x = Math.sin(time * 2) * 0.05;
+                pikachuMesh.scale.setScalar(1.05 + Math.sin(time * 3) * 0.02);
+            } else {
+                pikachuMesh.rotation.y += 0.005;
+                pikachuMesh.rotation.x = Math.sin(time) * 0.02;
+                pikachuMesh.scale.setScalar(1);
+            }
+
+            pikachuRenderer.render(pikachuScene, pikachuCamera);
+        }
+
+        // Event handlers
+        function onMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) / 100;
+            mouseY = (event.clientY - windowHalfY) / 100;
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+
+            if (camera && renderer) {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            // Resize Pikachu canvas
+            if (pikachuRenderer && pikachuContainer) {
+                const size = Math.min(pikachuContainer.clientWidth, pikachuContainer.clientHeight);
+                pikachuRenderer.setSize(size, size);
+            }
+        }
+
+        // Chat functions
         function toggleChat() {
             const chatInterface = document.getElementById('chatInterface');
             const chatMessages = document.getElementById('chatMessages');
@@ -1591,11 +1525,15 @@
             chatInterface.style.display = chatOpen ? 'flex' : 'none';
 
             if (chatOpen) {
-                // Clear previous messages
                 chatMessages.innerHTML = '';
-                // Add initial message
-                addMessage("Hi I am Arijit's Pikachu (an AI assistant), what do u want to know about me?", 'bot');
+                addMessage("Hi! I'm Arijit's Pikachu (an AI assistant), what do you want to know about me?", 'bot');
             }
+        }
+
+        function closeChat() {
+            const chatInterface = document.getElementById('chatInterface');
+            chatOpen = false;
+            chatInterface.style.display = 'none';
         }
 
         function showPikachuMessage() {
@@ -1603,11 +1541,13 @@
             if (!chatOpen) {
                 message.classList.add('show');
             }
+            isHoveringPikachu = true;
         }
 
         function hidePikachuMessage() {
             const message = document.getElementById('pikachuMessage');
             message.classList.remove('show');
+            isHoveringPikachu = false;
         }
 
         function handleKeyPress(event) {
@@ -1616,176 +1556,373 @@
             }
         }
 
-    async function sendMessage() {
-        const input = document.getElementById('chatInput');
-        const message = input.value.trim();
-        
-        if (message === '') return;
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message === '') return;
 
-        addMessage(message, 'user');
-        input.value = '';
+            addMessage(message, 'user');
+            input.value = '';
 
-        const loadingMessageDiv = addMessage('Thinking...', 'bot');
+            const loadingMessageDiv = addMessage('Thinking...', 'bot');
 
-        try {
-            const response = await getBotResponse(message);
-
-            // Remove the loading message
-            const messagesContainer = document.getElementById('chatMessages');
-            if (messagesContainer.lastChild) {
-                messagesContainer.removeChild(messagesContainer.lastChild);
-            }
-
-            addMessage(response, 'bot');
-        } catch (error) {
-            console.error('Error sending message:', error);
-
-            const messagesContainer = document.getElementById('chatMessages');
-            if (messagesContainer.lastChild) {
-                messagesContainer.removeChild(messagesContainer.lastChild);
-            }
-
-            addMessage(`Error: ${error.message}`, 'bot');
-        }
-    }
-
-    function addMessage(text, sender) {
-        const messagesContainer = document.getElementById('chatMessages');
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${sender}-message`;
-        messageDiv.textContent = text;
-        messagesContainer.appendChild(messageDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        return messageDiv;
-    }
-
-    async function getBotResponse(message) {
-        const myDescription = `I'm Arijit Sarkar, a passionate full-stack developer creating innovative digital solutions. 
-            I specialize in HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL, with a keen eye for UI/UX design. 
-            My projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game). 
-            I have 1 year of experience in web development and enjoy exploring emerging technologies, contributing to open-source projects, doing theatre, and travel. 
-            You can reach me at arijit.sarkar7156@gmail.com or on LinkedIn. I have done my 10th and 12th from Ram Mohan Mission High School, an ICSE Board School located in Kolkata, West Bengal. I am currently pursuing B.Tech (currently in 2nd year) from Heritage Institute of Technology, Kolkata, West Bengal. I live in Kolkata, West Bengal`;
-
-        const requestBody = {
-            contents: [
-                {
-                    parts: [
-                        {
-                            text: `User_message: ${message}. Reply naturally and if needed use: ${myDescription}. Be brief and friendly like Arijit himself.`
-                        }
-                    ]
+            try {
+                const response = await getBotResponse(message);
+                const messagesContainer = document.getElementById('chatMessages');
+                if (messagesContainer.lastChild) {
+                    messagesContainer.removeChild(messagesContainer.lastChild);
                 }
-            ]
-        };
+                addMessage(response, 'bot');
+            } catch (error) {
+                console.error('Error sending message:', error);
+                const messagesContainer = document.getElementById('chatMessages');
+                if (messagesContainer.lastChild) {
+                    messagesContainer.removeChild(messagesContainer.lastChild);
+                }
+                addMessage(`Error: ${error.message}`, 'bot');
+            }
+        }
 
-        try {
-            const response = await fetch('/api/gemini', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        async function getBotResponse(message) {
+            const myDescription = `I'm Arijit Sarkar, a passionate full-stack developer creating innovative digital solutions. 
+                I specialize in HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL, with a keen eye for UI/UX design. 
+                My projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game). 
+                I have 1 year of experience in web development and enjoy exploring emerging technologies, contributing to open-source projects, doing theatre, and travel. 
+                You can reach me at arijit.sarkar7156@gmail.com or on LinkedIn. I have done my 10th and 12th from Ram Mohan Mission High School, an ICSE Board School located in Kolkata, West Bengal. I am currently pursuing B.Tech (currently in 2nd year) from Heritage Institute of Technology, Kolkata, West Bengal. I live in Kolkata, West Bengal`;
+
+            const requestBody = {
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: `User_message: ${message}. Reply naturally and if needed use: ${myDescription}. Be brief and friendly like Arijit himself.`
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            try {
+                const response = await fetch('/api/gemini', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API error: ${errorData.error || 'Unknown error'}`);
+                }
+
+                const data = await response.json();
+                const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, couldn't respond.";
+                return generatedText;
+            } catch (error) {
+                console.error('Fetch error:', error);
+                throw error;
+            }
+        }
+
+  // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing...');
+            
+            // Initialize Three.js components
+            setTimeout(() => {
+                initThreeJS();
+                initPikachu();
+            }, 100);
+
+            // Add event listeners
+            document.addEventListener('mousemove', onMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetElement.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(`API error: ${errorData.error || 'Unknown error'}`);
+            // Mobile menu functionality
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenu && navLinks) {
+                mobileMenu.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
             }
 
-            const data = await response.json();
-            const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, couldn't respond.";
-            return generatedText;
-        } catch (error) {
-            console.error('Fetch error:', error);
-            throw error;
-        }
-    }
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Header background on scroll
-        window.addEventListener('scroll', () => {
+            // Header scroll effect
+            let lastScrollTop = 0;
             const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(10, 10, 10, 0.98)';
-                header.style.boxShadow = '0 2px 20px rgba(0, 212, 255, 0.1)';
-            } else {
-                header.style.background = 'rgba(10, 10, 10, 0.85)';
-                header.style.boxShadow = 'none';
-            }
-        });
-
-        // Mobile menu toggle
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const navLinks = document.querySelector('.nav-links');
-
-        mobileMenu.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
-
-        // Close chat when clicking outside
-        document.addEventListener('click', (e) => {
-            const chatInterface = document.getElementById('chatInterface');
-            const pikachuContainer = document.querySelector('.pikachu-chat-container');
             
-            if (chatOpen && !chatInterface.contains(e.target) && !pikachuContainer.contains(e.target)) {
-                toggleChat();
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down
+                    header.style.transform = 'translateY(-100%)';
+                } else {
+                    // Scrolling up
+                    header.style.transform = 'translateY(0)';
+                }
+                
+                lastScrollTop = scrollTop;
+            });
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe sections for scroll animations
+            document.querySelectorAll('section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(50px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+
+            // Typing effect for hero subtitle
+            const subtitle = document.querySelector('.hero-content .subtitle');
+            if (subtitle) {
+                const text = subtitle.textContent;
+                subtitle.textContent = '';
+                let i = 0;
+                
+                function typeWriter() {
+                    if (i < text.length) {
+                        subtitle.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 50);
+                    }
+                }
+                
+                setTimeout(typeWriter, 1000);
             }
-        });
 
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+            // Parallax effect for hero section
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero');
+                const heroContent = document.querySelector('.hero-content');
+                
+                if (hero && heroContent) {
+                    heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
                 }
             });
-        }, observerOptions);
 
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(30px)';
-            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(section);
+            // Add loading animation
+            const loader = document.createElement('div');
+            loader.innerHTML = `
+                <style>
+                    .loader {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 10000;
+                        opacity: 1;
+                        transition: opacity 0.5s ease;
+                    }
+                    
+                    .loader-content {
+                        text-align: center;
+                        color: #fff;
+                    }
+                    
+                    .loader-logo {
+                        font-size: 3rem;
+                        font-weight: bold;
+                        background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 50%, #ffaa00 100%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                        margin-bottom: 1rem;
+                        animation: pulse 2s infinite;
+                    }
+                    
+                    .loader-text {
+                        font-size: 1.2rem;
+                        color: #b0b0b0;
+                        margin-bottom: 2rem;
+                    }
+                    
+                    .loader-spinner {
+                        width: 50px;
+                        height: 50px;
+                        border: 3px solid rgba(0, 212, 255, 0.3);
+                        border-top: 3px solid #00d4ff;
+                        border-radius: 50%;
+                        animation: spin 1s linear infinite;
+                        margin: 0 auto;
+                    }
+                    
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                </style>
+                <div class="loader-content">
+                    <div class="loader-logo">Portfolio</div>
+                    <div class="loader-text">Loading Experience...</div>
+                    <div class="loader-spinner"></div>
+                </div>
+            `;
+            loader.className = 'loader';
+            document.body.appendChild(loader);
+
+            // Remove loader after everything is loaded
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(loader);
+                    }, 500);
+                }, 1000);
+            });
+
+            console.log('Initialization complete');
         });
 
-        // Initialize Three.js when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.innerWidth < 768) {
-                console.log('Mobile detected, skipping background 3D effects');
-            } else if (typeof THREE !== 'undefined') {
-                setTimeout(() => {
-                    initThreeJS();
-                }, 500);
-            } else {
-                console.error('Three.js not loaded');
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+        });
+
+        // Cleanup function
+        function cleanup() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            if (pikachuAnimationId) {
+                cancelAnimationFrame(pikachuAnimationId);
             }
             
-            // Always initialize Pikachu
-            if (typeof THREE !== 'undefined') {
-                setTimeout(() => {
-                    initPikachu();
-                }, 100);
+            if (renderer) {
+                renderer.dispose();
             }
-        });
+            if (pikachuRenderer) {
+                pikachuRenderer.dispose();
+            }
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', cleanup);
+
+        // Additional CSS for mobile menu animation
+        const mobileMenuStyles = document.createElement('style');
+        mobileMenuStyles.textContent = `
+            @media (max-width: 768px) {
+                .nav-links {
+                    position: fixed;
+                    top: 70px;
+                    right: -100%;
+                    width: 100%;
+                    height: calc(100vh - 70px);
+                    background: rgba(10, 10, 10, 0.95);
+                    backdrop-filter: blur(15px);
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: center;
+                    padding-top: 2rem;
+                    transition: right 0.3s ease;
+                    border-left: 1px solid rgba(0, 212, 255, 0.3);
+                }
+                
+                .nav-links.active {
+                    right: 0;
+                }
+                
+                .nav-links li {
+                    margin: 1rem 0;
+                }
+                
+                .nav-links a {
+                    font-size: 1.2rem;
+                    padding: 1rem 2rem;
+                    display: block;
+                    width: 100%;
+                    text-align: center;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                
+                .mobile-menu.active span:nth-child(1) {
+                    transform: rotate(-45deg) translate(-5px, 6px);
+                }
+                
+                .mobile-menu.active span:nth-child(2) {
+                    opacity: 0;
+                }
+                
+                .mobile-menu.active span:nth-child(3) {
+                    transform: rotate(45deg) translate(-5px, -6px);
+                }
+            }
+        `;
+        document.head.appendChild(mobileMenuStyles);
+
+        // Performance optimization
+        let ticking = false;
+        
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateAnimations);
+            }
+            ticking = true;
+        }
+        
+        function updateAnimations() {
+            // Update any performance-heavy animations here
+            ticking = false;
+        }
+
+        // Console welcome message
+        console.log('%c Welcome to Arijit\'s Portfolio! ', 'background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%); color: white; font-size: 16px; padding: 8px; border-radius: 4px;');
+        console.log('%c Built with Three.js, modern CSS, and lots of ⚡ ', 'color: #00d4ff; font-size: 14px;');
     </script>
 </body>
 </html>
