@@ -1101,35 +1101,35 @@
         function createEnhancedAIRobot() {
             const robotGroup = new THREE.Group();
             robotGroup.position.y = -1.5;
-            // Enhanced Materials with attractive colors on black background
+            // Enhanced Materials with white body and blue glowing elements
             const bodyMaterial = new THREE.MeshPhysicalMaterial({
                 color: 0xFFFFFF, // White body
-                metalness: 0.9,
-                roughness: 0.1,
+                metalness: 0.3,
+                roughness: 0.2,
                 clearcoat: 1,
                 clearcoatRoughness: 0.1,
-                emissive: 0x333333, // Subtle dark emissive for contrast
-                emissiveIntensity: 0.2
+                emissive: 0x000000, // No emissive for pure white
+                emissiveIntensity: 0
             });
             const accentMaterial = new THREE.MeshPhysicalMaterial({
-                color: 0x00ffff, // Bright cyan
+                color: 0x0033AA, // Deep blue accent
                 metalness: 0.8,
                 roughness: 0.2,
-                emissive: 0x004444,
+                emissive: 0x001155,
                 emissiveIntensity: 0.4
             });
             const glowMaterial = new THREE.MeshPhysicalMaterial({
-                color: 0x00ff88, // Bright green
-                emissive: 0x00ff88,
-                emissiveIntensity: 1.2,
+                color: 0x0044DD, // Deep prominent blue glow
+                emissive: 0x0044DD,
+                emissiveIntensity: 1.8,
                 transparent: true,
-                opacity: 0.9
+                opacity: 0.95
             });
             const brightAccentMaterial = new THREE.MeshPhysicalMaterial({
-                color: 0xff4444, // Bright red
+                color: 0x0055BB, // Deep blue accent
                 metalness: 0.7,
                 roughness: 0.3,
-                emissive: 0x330000,
+                emissive: 0x001144,
                 emissiveIntensity: 0.3
             });
             // Head - Larger
@@ -1139,7 +1139,7 @@
             head.castShadow = true;
             robotGroup.add(head);
             robotParts.head = head;
-            // Eyes (glowing) - Larger and brighter
+            // Eyes (glowing blue) - Larger and brighter
             const eyeGeometry = new THREE.SphereGeometry(0.2, 16, 16);
             const leftEye = new THREE.Mesh(eyeGeometry, glowMaterial);
             leftEye.position.set(-0.4, 4.2, 0.85);
@@ -1149,7 +1149,7 @@
             rightEye.position.set(0.4, 4.2, 0.85);
             robotGroup.add(rightEye);
             robotParts.rightEye = rightEye;
-            // Antenna - Brighter
+            // Antenna - Blue
             const antennaGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.8);
             const antenna = new THREE.Mesh(antennaGeometry, accentMaterial);
             antenna.position.set(0, 5.2, 0);
@@ -1167,7 +1167,7 @@
             torso.castShadow = true;
             robotGroup.add(torso);
             robotParts.torso = torso;
-            // Core (glowing center) - Larger and brighter
+            // Core (glowing blue center) - Larger and brighter
             const coreGeometry = new THREE.SphereGeometry(0.4, 16, 16);
             const core = new THREE.Mesh(coreGeometry, glowMaterial);
             core.position.set(0, 2.2, 1.05);
@@ -1200,7 +1200,7 @@
                 upperArm.position.y = -1;
                 upperArm.castShadow = true;
                 armGroup.add(upperArm);
-                // Elbow - Larger and brighter
+                // Elbow - Larger and blue
                 const elbowGeometry = new THREE.SphereGeometry(0.35, 16, 16);
                 const elbow = new THREE.Mesh(elbowGeometry, accentMaterial);
                 elbow.position.y = -1.8;
@@ -1237,7 +1237,7 @@
                 upperLeg.position.y = -1.2;
                 upperLeg.castShadow = true;
                 legGroup.add(upperLeg);
-                // Knee - Larger and brighter
+                // Knee - Larger and blue
                 const kneeGeometry = new THREE.SphereGeometry(0.45, 16, 16);
                 const knee = new THREE.Mesh(kneeGeometry, accentMaterial);
                 knee.position.y = -2.2;
