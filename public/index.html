@@ -919,7 +919,6 @@
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
-   
     <script>
         // Global variables
         let scene, camera, renderer, particles, geometryShapes, mouse, raycaster;
@@ -939,6 +938,15 @@
         let isDancing = false;
         let danceStartTime = 0;
         const danceDuration = 3000; // 3 seconds
+        //Drone model
+        let droneScene, droneCamera, droneRenderer, droneMesh; // droneScene, camera, renderer are not used for the background drone, only droneMesh is added to the main scene
+        let droneContainer; // Not used for background drone
+        let droneAnimationId; // Not used as animateDrone is called from animate
+        let droneParts = {};
+        let dronePosition = { x: -80, y: 20, z: 0 };
+        let droneDirection = 1; // 1 for right, -1 for left
+        let droneSpeed = 0.3;
+        let propellerRotation = 0;
         // Chat functionality (only for Pikachu)
         let chatOpen = false;
         // Check Three.js availability
@@ -1027,6 +1035,16 @@
                 console.log('Pikachu 3D model initialized successfully');
             } catch (error) {
                 console.error('Error initializing Pikachu:', error);
+            }
+        }
+        //Initialize Drone 3D model
+        function initDrone() {
+            if (!checkThreeJS()) return;
+            try {
+                createDetailedDrone();
+                console.log('Flying Drone initialized successfully');
+            } catch (error) {
+                console.error('Error initializing Flying Drone:', error);
             }
         }
         // Initialize AI Robot 3D model
@@ -1258,6 +1276,229 @@
                 robotMesh.position.y = -1.5; // Reset vertical position
                 robotMesh.rotation.y = 0; // Reset overall rotation
             }, danceDuration);
+        }
+       // Create detailed drone model with realistic AI-tech colors for black background
+        function createDetailedDrone() {
+            const droneGroup = new THREE.Group();
+
+            // Main Body: Matte dark gray with strong blue tech glow
+            const bodyMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x4a4a4a, // Medium gray for better visibility
+                metalness: 0.9,
+                roughness: 0.2,
+                clearcoat: 0.9,
+                clearcoatRoughness: 0.1,
+                emissive: 0x0044aa, // Strong blue glow
+                emissiveIntensity: 1.2 // Increased intensity
+            });
+
+            // Accents: Brushed aluminum with stronger cyan highlights
+            const accentMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x6a6a6a, // Lighter gray for visibility
+                metalness: 0.95,
+                roughness: 0.1,
+                clearcoat: 1.0,
+                emissive: 0x0088cc, // Stronger cyan tech glow
+                emissiveIntensity: 0.8 // Increased intensity
+            });
+
+            // Propellers: Carbon fiber black with red warning tips
+            const propellerMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x1a1a1a, // Very dark gray/black
+                metalness: 0.8,
+                roughness: 0.4,
+                emissive: 0x220000, // Very subtle red
+                emissiveIntensity: 0.2
+            });
+
+            // LEDs: Professional blue tech indicators
+            const ledMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x0088ff, // Professional blue
+                emissive: 0x0088ff,
+                emissiveIntensity: 2.5, // Moderate glow
+                transparent: true,
+                opacity: 0.9
+            });
+
+            // Status LEDs: Green for operational status
+            const statusLedMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x00ff44,
+                emissive: 0x00ff44,
+                emissiveIntensity: 1.8,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            // Main body (central hub)
+            const bodyGeometry = new THREE.CylinderGeometry(0.8, 0.8, 0.4, 8);
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.rotation.y = Math.PI / 8; // Rotate for octagon look
+            droneGroup.add(body);
+            droneParts.body = body;
+
+            // Tech panel on top - stronger cyan glow
+            const panelMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x555555, // Lighter for visibility
+                metalness: 0.9,
+                roughness: 0.1,
+                emissive: 0x0066cc, // Stronger blue
+                emissiveIntensity: 1.0 // Increased intensity
+            });
+            const panelGeometry = new THREE.CylinderGeometry(0.6, 0.6, 0.05, 8);
+            const panel = new THREE.Mesh(panelGeometry, panelMaterial);
+            panel.position.y = 0.25;
+            droneGroup.add(panel);
+
+            // Camera gimbal - professional black with orange accent
+            const gimbalMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x1a1a1a, // Very dark
+                metalness: 0.8,
+                roughness: 0.2,
+                emissive: 0x332200, // Subtle orange glow
+                emissiveIntensity: 0.4
+            });
+            const gimbalGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+            const gimbal = new THREE.Mesh(gimbalGeometry, gimbalMaterial);
+            gimbal.position.y = -0.4;
+            droneGroup.add(gimbal);
+            droneParts.gimbal = gimbal;
+
+            // Arms and propellers
+            const armPositions = [
+                { x: 1.5, z: 1.5 },   // Front right
+                { x: -1.5, z: 1.5 },  // Front left
+                { x: -1.5, z: -1.5 }, // Back left
+                { x: 1.5, z: -1.5 }   // Back right
+            ];
+
+            droneParts.propellers = [];
+            droneParts.arms = [];
+
+            armPositions.forEach((pos, index) => {
+                // Arm - carbon fiber look with better visibility
+                const armMaterial = new THREE.MeshPhysicalMaterial({
+                    color: 0x4a4a4a, // Lighter gray
+                    metalness: 0.7,
+                    roughness: 0.3,
+                    emissive: 0x003366, // Stronger blue glow
+                    emissiveIntensity: 0.6 // Increased intensity
+                });
+                const armGeometry = new THREE.CylinderGeometry(0.08, 0.08, 2.1, 8);
+                const arm = new THREE.Mesh(armGeometry, armMaterial);
+                // Calculate arm rotation to point towards propeller position
+                const angle = Math.atan2(pos.z, pos.x);
+                arm.rotation.z = angle;
+                arm.rotation.y = Math.PI / 2;
+                // Position arm
+                arm.position.x = pos.x * 0.5;
+                arm.position.z = pos.z * 0.5;
+                arm.position.y = 0.1;
+                droneGroup.add(arm);
+                droneParts.arms.push(arm);
+
+                // Motor housing - brushed metal
+                const motorGeometry = new THREE.CylinderGeometry(0.2, 0.2, 0.3, 12);
+                const motor = new THREE.Mesh(motorGeometry, accentMaterial);
+                motor.position.set(pos.x, 0.25, pos.z);
+                droneGroup.add(motor);
+
+                // Propeller hub - dark metal
+                const hubGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.05, 8);
+                const hub = new THREE.Mesh(hubGeometry, bodyMaterial);
+                hub.position.set(pos.x, 0.4, pos.z);
+                droneGroup.add(hub);
+
+                // Propeller blades - carbon fiber with red tips
+                const propellerGroup = new THREE.Group();
+                for (let i = 0; i < 2; i++) {
+                    const bladeGeometry = new THREE.BoxGeometry(1.2, 0.02, 0.08);
+                    const blade = new THREE.Mesh(bladeGeometry, propellerMaterial);
+                    blade.rotation.y = (i * Math.PI);
+                    propellerGroup.add(blade);
+
+                    // Red warning tips on propellers
+                    const tipMaterial = new THREE.MeshPhysicalMaterial({
+                        color: 0xff2200,
+                        emissive: 0xff1100,
+                        emissiveIntensity: 1.0
+                    });
+                    const tipGeometry = new THREE.BoxGeometry(0.1, 0.025, 0.09);
+                    const tip = new THREE.Mesh(tipGeometry, tipMaterial);
+                    tip.position.x = i === 0 ? 0.55 : -0.55;
+                    tip.rotation.y = (i * Math.PI);
+                    propellerGroup.add(tip);
+                }
+                propellerGroup.position.set(pos.x, 0.42, pos.z);
+                droneGroup.add(propellerGroup);
+                droneParts.propellers.push(propellerGroup);
+
+                // Navigation LEDs - professional blue
+                const ledGeometry = new THREE.SphereGeometry(0.06, 8, 8);
+                const led = new THREE.Mesh(ledGeometry, ledMaterial);
+                led.position.set(pos.x * 0.8, 0.1, pos.z * 0.8);
+                droneGroup.add(led);
+
+                // Status indicator on each arm
+                const statusGeometry = new THREE.SphereGeometry(0.04, 8, 8);
+                const statusLed = new THREE.Mesh(statusGeometry, statusLedMaterial);
+                statusLed.position.set(pos.x * 0.6, 0.15, pos.z * 0.6);
+                droneGroup.add(statusLed);
+            });
+
+            // Landing gear - matte black
+            const gearMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x1a1a1a,
+                metalness: 0.3,
+                roughness: 0.8
+            });
+
+            const gearPositions = [
+                { x: 0.8, z: 0.8 },
+                { x: -0.8, z: 0.8 },
+                { x: -0.8, z: -0.8 },
+                { x: 0.8, z: -0.8 }
+            ];
+
+            gearPositions.forEach(pos => {
+                const gearGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.6, 6);
+                const gear = new THREE.Mesh(gearGeometry, gearMaterial);
+                gear.position.set(pos.x, -0.5, pos.z);
+                droneGroup.add(gear);
+
+                // Gear foot - dark with stronger blue glow
+                const footMaterial = new THREE.MeshPhysicalMaterial({
+                    color: 0x4a4a4a, // Lighter for visibility
+                    metalness: 0.8,
+                    roughness: 0.3,
+                    emissive: 0x0044aa, // Stronger blue
+                    emissiveIntensity: 0.7 // Increased intensity
+                });
+                const footGeometry = new THREE.SphereGeometry(0.08, 8, 8);
+                const foot = new THREE.Mesh(footGeometry, footMaterial);
+                foot.position.set(pos.x, -0.8, pos.z);
+                droneGroup.add(foot);
+            });
+
+            // Central AI core indicator - subtle pulsing blue
+            const coreGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+            const coreMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x0066cc,
+                emissive: 0x0066cc,
+                emissiveIntensity: 1.5,
+                transparent: true,
+                opacity: 0.7
+            });
+            const core = new THREE.Mesh(coreGeometry, coreMaterial);
+            core.position.y = 0;
+            droneGroup.add(core);
+            droneParts.core = core;
+
+            // Set initial position
+            droneGroup.position.set(dronePosition.x, dronePosition.y, dronePosition.z);
+            droneGroup.scale.setScalar(3.5);
+
+            droneMesh = droneGroup;
+            scene.add(droneMesh);
         }
         // Create particle system for background
         function createParticleSystem() {
@@ -1523,6 +1764,7 @@
                     }
                 });
             }
+            animateDrone()
             // Camera movement based on mouse
             if (mouseX !== undefined && mouseY !== undefined) {
                 camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
@@ -1556,13 +1798,11 @@
             const time = Date.now() * 0.001;
             const danceProgress = (Date.now() - danceStartTime) / danceDuration;
             const danceFactor = Math.sin(danceProgress * Math.PI); // Smooth curve from 0 to 1 and back to 0
-
             if (isDancing) {
                 // Overall robot movement
                 robotMesh.position.y = -1.5 + Math.sin(time * 10) * 0.5; // Up and down bounce
                 robotMesh.rotation.y += 0.1; // Spin
                 robotMesh.rotation.x = Math.sin(time * 5) * 0.2; // Tilt
-
                 // Arms dancing
                 if (robotParts.leftArm) {
                     robotParts.leftArm.rotation.z = Math.sin(time * 15) * 0.8 + 0.5; // Swing up and down
@@ -1572,7 +1812,6 @@
                     robotParts.rightArm.rotation.z = -Math.sin(time * 15) * 0.8 - 0.5; // Swing up and down (opposite)
                     robotParts.rightArm.rotation.x = -Math.cos(time * 10) * 0.5; // Rotate forward/backward (opposite)
                 }
-
                 // Legs dancing
                 if (robotParts.leftLeg) {
                     robotParts.leftLeg.rotation.x = Math.sin(time * 20) * 0.4; // Kick forward/backward
@@ -1580,25 +1819,21 @@
                 if (robotParts.rightLeg) {
                     robotParts.rightLeg.rotation.x = -Math.sin(time * 20) * 0.4; // Kick forward/backward (opposite)
                 }
-
                 // Head bobbing
                 if (robotParts.head) {
                     robotParts.head.rotation.x = Math.sin(time * 25) * 0.3; // Bob up and down
                     robotParts.head.rotation.y = Math.cos(time * 20) * 0.3; // Turn left/right
                 }
-
                 // Enhanced glow during dance
                 const danceGlowIntensity = 2.5 + Math.sin(time * 30) * 1.5;
                 if (robotParts.core) robotParts.core.material.emissiveIntensity = danceGlowIntensity;
                 if (robotParts.antennaTip) robotParts.antennaTip.material.emissiveIntensity = danceGlowIntensity;
                 if (robotParts.leftEye) robotParts.leftEye.material.emissiveIntensity = danceGlowIntensity;
                 if (robotParts.rightEye) robotParts.rightEye.material.emissiveIntensity = danceGlowIntensity;
-
             } else {
                 // Idle animations
                 robotMesh.position.y = -1.5 + Math.sin(time * 0.5) * 0.3; // Gentle floating
                 robotMesh.rotation.y += 0.005; // Slow idle rotation
-
                 if (robotParts.head) {
                     robotParts.head.rotation.y = Math.sin(time * 0.3) * 0.15;
                     robotParts.head.rotation.x = Math.sin(time * 0.4) * 0.08;
@@ -1634,6 +1869,48 @@
             }
             // Render the scene
             robotRenderer.render(robotScene, robotCamera);
+        }
+        function animateDrone() {
+            if (!droneMesh) return;
+            const time = Date.now() * 0.001;
+            // Move drone horizontally
+            dronePosition.x += droneSpeed * droneDirection;
+            // Reverse direction when reaching boundaries
+            if (dronePosition.x > 80) {
+                droneDirection = -1;
+            } else if (dronePosition.x < -80) {
+                droneDirection = 1;
+            }
+            // Add floating motion
+            dronePosition.y = 20 + Math.sin(time * 2) * 3;
+            // Add slight forward/backward sway
+            dronePosition.z = Math.sin(time * 1.5) * 5;
+            // Apply position
+            droneMesh.position.set(dronePosition.x, dronePosition.y, dronePosition.z);
+            // Rotate drone slightly based on direction
+            droneMesh.rotation.y = droneDirection * 0.1 + Math.sin(time * 0.5) * 0.05;
+            droneMesh.rotation.x = Math.sin(time * 1.2) * 0.03;
+            droneMesh.rotation.z = -droneDirection * 0.05;
+            // Animate propellers
+            propellerRotation += 0.8;
+            if (droneParts.propellers) {
+                droneParts.propellers.forEach((propeller, index) => {
+                    if (propeller) {
+                        // Alternate rotation direction for realism
+                        const direction = (index % 2 === 0) ? 1 : -1;
+                        propeller.rotation.y = propellerRotation * direction;
+                    }
+                });
+            }
+            // Animate gimbal (camera) - slight independent movement
+            if (droneParts.gimbal) {
+                droneParts.gimbal.rotation.x = Math.sin(time * 0.8) * 0.2;
+                droneParts.gimbal.rotation.y = Math.sin(time * 0.6) * 0.15;
+            }
+            // Animate body slightly
+            if (droneParts.body) {
+                droneParts.body.rotation.y += 0.002;
+            }
         }
         // Event handlers
         function onMouseMove(event) {
@@ -1697,14 +1974,10 @@
          async function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
-            
             if (message === '') return;
-
             addMessage(message, 'user');
             input.value = '';
-
             const loadingMessageDiv = addMessage('Thinking...', 'bot');
-
             try {
                 const response = await getBotResponse(message);
                 const messagesContainer = document.getElementById('chatMessages');
@@ -1721,7 +1994,6 @@
                 addMessage(`Error: ${error.message}`, 'bot');
             }
         }
-
         function addMessage(text, sender) {
             const messagesContainer = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
@@ -1731,14 +2003,12 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             return messageDiv;
         }
-
         async function getBotResponse(message) {
-            const myDescription = `I'm Arijit Sarkar, a passionate full-stack developer creating innovative digital solutions. 
-                I specialize in HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL, with a keen eye for UI/UX design. 
-                My projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game). 
-                I have 1 year of experience in web development and enjoy exploring emerging technologies, contributing to open-source projects, doing theatre, and travel. 
-                You can reach me at arijit.sarkar7156@gmail.com or on LinkedIn. I have done my 10th and 12th from Ram Mohan Mission High School, an ICSE Board School located in Kolkata, West Bengal. I am currently pursuing B.Tech (currently in 2nd year) from Heritage Institute of Technology, Kolkata, West Bengal. I live in Kolkata, West Bengal`;
-
+            const myDescription = `I'm Arijit Sarkar, a passionate full-stack developer creating innovative digital solutions.
+                 I specialize in HTML5, CSS3, JavaScript, React, Node.js, Python, MongoDB, and MySQL, with a keen eye for UI/UX design.
+                 My projects include Homezy (a rental platform), Trinoyon (an interactive fundraising website), and Space Defenders (an arcade shooter game).
+                 I have 1 year of experience in web development and enjoy exploring emerging technologies, contributing to open-source projects, doing theatre, and travel.
+                 You can reach me at arijit.sarkar7156@gmail.com or on LinkedIn. I have done my 10th and 12th from Ram Mohan Mission High School, an ICSE Board School located in Kolkata, West Bengal. I am currently pursuing B.Tech (currently in 2nd year) from Heritage Institute of Technology, Kolkata, West Bengal. I live in Kolkata, West Bengal`;
             const requestBody = {
                 contents: [
                     {
@@ -1750,7 +2020,6 @@
                     }
                 ]
             };
-
             try {
                 const response = await fetch('/api/gemini', {
                     method: 'POST',
@@ -1759,12 +2028,10 @@
                     },
                     body: JSON.stringify(requestBody)
                 });
-
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(`API error: ${errorData.error || 'Unknown error'}`);
                 }
-
                 const data = await response.json();
                 const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, couldn't respond.";
                 return generatedText;
@@ -1780,6 +2047,7 @@
             setTimeout(() => {
                 initThreeJS();
                 initPikachu();
+                initDrone(); // Initialize the Drone
                 initRobot(); // Initialize the AI Robot
                 // Add robot click functionality after initialization
                 setTimeout(() => {
