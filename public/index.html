@@ -10,7 +10,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -18,7 +17,6 @@
             background-color: #0a0a0a;
             overflow-x: hidden;
         }
-
         /* Three.js Canvas */
         #threejs-canvas {
             position: fixed;
@@ -29,7 +27,6 @@
             z-index: 1;
             pointer-events: none;
         }
-
         /* Header */
         header {
             position: fixed;
@@ -42,7 +39,6 @@
             padding: 1rem 0;
             transition: all 0.3s ease;
         }
-
         nav {
             display: flex;
             justify-content: space-between;
@@ -51,7 +47,6 @@
             margin: 0 auto;
             padding: 0 2rem;
         }
-
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
@@ -60,13 +55,11 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .nav-links {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
-
         .nav-links a {
             text-decoration: none;
             color: #e0e0e0;
@@ -74,11 +67,9 @@
             transition: all 0.3s ease;
             position: relative;
         }
-
         .nav-links a:hover {
             color: #00d4ff;
         }
-
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -89,17 +80,14 @@
             background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
             transition: width 0.3s ease;
         }
-
         .nav-links a:hover::after {
             width: 100%;
         }
-
         .mobile-menu {
             display: none;
             flex-direction: column;
             cursor: pointer;
         }
-
         .mobile-menu span {
             width: 25px;
             height: 3px;
@@ -107,7 +95,6 @@
             margin: 3px 0;
             transition: 0.3s;
         }
-
         /* Hero Section */
         .hero {
             height: 100vh;
@@ -121,12 +108,10 @@
             padding: 2rem 0;
             z-index: 2;
         }
-
         .hero-content {
             position: relative;
             z-index: 2;
         }
-
         .hero-content .greeting {
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
@@ -136,7 +121,6 @@
             background-clip: text;
             animation: fadeInUp 1s ease;
         }
-
         .hero-content h1 {
             font-size: 4rem;
             margin-bottom: 0.75rem;
@@ -147,14 +131,12 @@
             animation: fadeInUp 1s ease 0.2s both;
             text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
         }
-
         .hero-content .subtitle {
             font-size: 1.2rem;
             margin-bottom: 1.5rem;
             color: #b0b0b0;
             animation: fadeInUp 1s ease 0.4s both;
         }
-
         .cta-button {
             display: inline-block;
             padding: 15px 35px;
@@ -172,7 +154,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .cta-button::before {
             content: '';
             position: absolute;
@@ -183,16 +164,13 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
-
         .cta-button:hover::before {
             left: 100%;
         }
-
         .cta-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.5);
         }
-
         /* Sections */
         section {
             padding: 5rem 2rem;
@@ -205,7 +183,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 2;
         }
-
         h2 {
             font-size: 2.5rem;
             text-align: center;
@@ -215,7 +192,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         /* About Section */
         .about-content {
             display: grid;
@@ -223,11 +199,10 @@
             gap: 3rem;
             align-items: center;
         }
-
         .about-image {
             width: 100%;
             height: 400px;
-            background-image: url('images/image.jpg');
+            background-image: url('./images/image.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -237,7 +212,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
-
         .about-image::before {
             content: '';
             position: absolute;
@@ -248,18 +222,15 @@
             background: linear-gradient(135deg, rgba(26, 26, 46, 0.3) 0%, rgba(22, 33, 62, 0.3) 50%, rgba(83, 52, 131, 0.3) 100%);
             transition: opacity 0.3s ease;
         }
-
         .about-image:hover::before {
             opacity: 0.2;
         }
-
         .about-text p {
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
             line-height: 1.8;
             color: #c0c0c0;
         }
-
         /* Skills Section */
         .skills-grid {
             display: grid;
@@ -267,7 +238,6 @@
             gap: 2rem;
             perspective: 1000px;
         }
-
         .skill-card {
             background: rgba(0, 0, 0, 0.4);
             padding: 2rem;
@@ -280,13 +250,11 @@
             transform: translateZ(0);
             z-index: 3;
         }
-
         .skill-card:hover {
             transform: translateY(-10px) translateZ(20px) rotateX(10deg);
             border-color: rgba(0, 212, 255, 0.5);
             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
         }
-
         .skill-icon {
             width: 60px;
             height: 60px;
@@ -300,16 +268,13 @@
             color: white;
             font-size: 1.5rem;
         }
-
         .skill-card h3 {
             color: #ffffff;
             margin-bottom: 1rem;
         }
-
         .skill-card p {
             color: #b0b0b0;
         }
-
         /* Projects Section */
         .projects-grid {
             display: grid;
@@ -317,7 +282,6 @@
             gap: 2rem;
             perspective: 1000px;
         }
-
         .project-card {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 15px;
@@ -329,13 +293,11 @@
             transform: translateZ(0);
             z-index: 3;
         }
-
         .project-card:hover {
             transform: translateY(-10px) translateZ(20px) rotateX(10deg);
             border-color: rgba(0, 212, 255, 0.5);
             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
         }
-
         .project-image {
             height: 250px;
             background-size: cover;
@@ -345,7 +307,6 @@
             overflow: hidden;
             transition: all 0.5s ease;
         }
-
         .project-image::before {
             content: '';
             position: absolute;
@@ -357,19 +318,15 @@
             opacity: 0.3;
             transition: opacity 0.3s ease;
         }
-
         .project-card:hover .project-image::before {
             opacity: 0;
         }
-
         .project-card:hover .project-image {
             transform: scale(1.05);
         }
-
         .project-content {
             padding: 1.5rem;
         }
-
         .project-content h3 {
             margin-bottom: 1rem;
             color: #ffffff;
@@ -380,23 +337,19 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .project-content p {
             color: #b0b0b0;
         }
-
         /* Contact Section */
         .contact-content {
             text-align: center;
             max-width: 600px;
             margin: 0 auto;
         }
-
         .contact-content p {
             color: #c0c0c0;
             font-size: 1.1rem;
         }
-
         .contact-info {
             display: grid;
             grid-template-columns: repeat(4, minmax(280px, 1fr));
@@ -409,7 +362,6 @@
             justify-content: center;
             perspective: 1000px;
         }
-
         .contact-item {
             width: 100%;
             padding: 2rem;
@@ -423,19 +375,16 @@
             transform: translateZ(0);
             z-index: 3;
         }
-
         .contact-item:hover {
             transform: translateY(-10px) translateZ(20px) rotateX(10deg);
             border-color: rgba(0, 212, 255, 0.5);
             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
         }
-
         .contact-item h3 {
             color: #ffffff;
             margin-bottom: 0.75rem;
             font-size: 1.2rem;
         }
-
         .contact-link {
             color: #00d4ff;
             text-decoration: none;
@@ -445,12 +394,10 @@
             word-break: break-all;
             transform: translateZ(10px);
         }
-
         .contact-link:hover {
             color: #ff00ff;
             transform: translateZ(10px) translateY(-2px);
         }
-
         /* 3D Pikachu Chat Bubble */
         .pikachu-chat-container {
             position: fixed;
@@ -462,17 +409,47 @@
             pointer-events: all;
             cursor: pointer;
         }
-
         #pikachu-canvas {
             width: 100%;
             height: 100%;
             transition: all 0.3s ease;
         }
-
         .pikachu-chat-container:hover #pikachu-canvas {
             transform: scale(1.1);
         }
-
+       /* AI Robot Display - Remove circle background and move more left */
+        .robot-display-container {
+            position: fixed;
+            bottom: 30px;
+            left: 15px; /* Moved more to the left */
+            width: 220px;
+            height: 220px;
+            z-index: 1001;
+            pointer-events: all;
+            cursor: pointer;
+            /* Removed the circular background and glow effects */
+            transition: all 0.3s ease;
+        }
+        .robot-display-container:hover {
+            transform: scale(1.05);
+            /* Removed the box-shadow glow effect */
+        }
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .robot-display-container {
+                width: 160px;
+                height: 160px;
+                bottom: 20px;
+                left: 10px; /* Moved more to the left on mobile */
+            }
+        }
+        @media (max-width: 480px) {
+            .robot-display-container {
+                width: 120px;
+                height: 120px;
+                left: 5px; /* Even more to the left on small screens */
+            }
+        }
         /* Pikachu Message Bubble */
         .pikachu-message {
             position: absolute;
@@ -493,7 +470,6 @@
             pointer-events: none;
             z-index: 1000;
         }
-
         .pikachu-message::after {
             content: '';
             position: absolute;
@@ -504,12 +480,10 @@
             border: 8px solid transparent;
             border-top-color: #FFD700;
         }
-
         .pikachu-message.show {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
-
         .chat-interface {
             position: fixed;
             bottom: 160px;
@@ -526,7 +500,6 @@
             overflow: hidden;
             backdrop-filter: blur(15px);
         }
-
         .chat-header {
         background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
         color: white;
@@ -538,7 +511,6 @@
         justify-content: center;
         align-items: center;
     }
-
     .chat-close {
         position: absolute;
         right: 1rem;
@@ -557,12 +529,10 @@
         align-items: center;
         transition: all 0.3s ease;
     }
-
     .chat-close:hover {
         background: rgba(255, 255, 255, 0.2);
         transform: translateY(-50%) rotate(90deg);
     }
-
         .chat-messages {
             flex: 1;
             padding: 1rem;
@@ -572,27 +542,23 @@
             gap: 1rem;
             background: rgba(10, 10, 10, 0.3);
         }
-
         .message {
             max-width: 80%;
             padding: 0.8rem 1rem;
             border-radius: 15px;
             animation: fadeInUp 0.3s ease;
         }
-
         .bot-message {
             background: rgba(0, 212, 255, 0.2);
             border: 1px solid rgba(0, 212, 255, 0.3);
             color: #e0e0e0;
             align-self: flex-start;
         }
-
         .user-message {
             background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
             color: white;
             align-self: flex-end;
         }
-
         .chat-input {
             padding: 1rem;
             border-top: 1px solid rgba(0, 212, 255, 0.2);
@@ -600,7 +566,6 @@
             gap: 0.5rem;
             background: rgba(10, 10, 10, 0.3);
         }
-
         .chat-input input {
             flex: 1;
             padding: 0.8rem;
@@ -610,11 +575,9 @@
             background: rgba(26, 26, 46, 0.8);
             color: #e0e0e0;
         }
-
         .chat-input input::placeholder {
             color: #888;
         }
-
         .chat-input button {
             padding: 0.8rem 1.5rem;
             background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
@@ -624,11 +587,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .chat-input button:hover {
             transform: scale(1.05);
         }
-
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -640,7 +601,6 @@
                 transform: translateY(0);
             }
         }
-
         @keyframes pulse {
             0% {
                 box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
@@ -652,7 +612,6 @@
                 box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
             }
         }
-
         @keyframes float {
             0%, 100% {
                 transform: translateY(0px);
@@ -661,20 +620,17 @@
                 transform: translateY(-20px);
             }
         }
-
         /* Responsive Design */
         @media (max-width: 1200px) {
             .skills-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-
         @media (max-width: 900px) {
             .skills-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
         @media (max-width: 1200px) {
             .contact-info {
                 grid-template-columns: repeat(2, minmax(300px, 1fr));
@@ -682,123 +638,109 @@
                 max-width: 800px;
             }
         }
-
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-
             .mobile-menu {
                 display: flex;
             }
-
             .skills-grid {
                 grid-template-columns: 1fr;
             }
-
             .contact-info {
                 grid-template-columns: 1fr;
                 gap: 1rem;
                 padding: 0 1rem;
             }
-
             .hero-content h1 {
                 font-size: 2.8rem;
             }
-
             .hero-content .greeting {
                 font-size: 1.2rem;
             }
-
             .about-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
-
             .chat-interface {
                 width: 90vw;
                 right: 5vw;
                 height: 70vh;
             }
-
             .pikachu-chat-container {
                 width: 120px;
                 height: 120px;
                 bottom: 20px;
                 right: 20px;
             }
-
+            .robot-display-container {
+                width: 160px;
+                height: 160px;
+                bottom: 20px;
+                left: 20px;
+            }
             .pikachu-message {
                 bottom: 130px;
                 right: -30px;
                 font-size: 12px;
                 padding: 10px 12px;
             }
-
             .pikachu-message::after {
                 right: 40px;
                 border-width: 6px;
             }
-
             section {
                 padding: 3rem 1rem;
             }
-
             h2 {
                 font-size: 2rem;
             }
         }
-
         @media (max-width: 480px) {
             .hero-content h1 {
                 font-size: 2.2rem;
             }
-
             .hero-content .greeting {
                 font-size: 1rem;
             }
-
             .hero-content .subtitle {
                 font-size: 1.1rem;
             }
-
             .pikachu-chat-container {
                 width: 100px;
                 height: 100px;
             }
-
+            .robot-display-container {
+                width: 120px;
+                height: 120px;
+            }
             .pikachu-message {
                 bottom: 110px;
                 right: -20px;
                 font-size: 11px;
                 padding: 8px 10px;
             }
-
             .pikachu-message::after {
                 right: 30px;
                 border-width: 5px;
             }
-
             .chat-interface {
                 bottom: 100px;
                 height: 60vh;
             }
         }
-
         /* Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 8px;
         }
-
         ::-webkit-scrollbar-track {
             background: #1a1a2e;
         }
-
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%);
             border-radius: 4px;
         }
-
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #ff00ff 0%, #00d4ff 100%);
         }
@@ -808,7 +750,6 @@
 <body>
     <!-- Three.js Canvas -->
     <canvas id="threejs-canvas"></canvas>
-
     <!-- Header -->
     <header>
         <nav>
@@ -827,7 +768,6 @@
             </div>
         </nav>
     </header>
-
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
@@ -837,7 +777,6 @@
             <a href="#about" class="cta-button">Explore My Journey</a>
         </div>
     </section>
-
     <!-- About Section -->
     <section id="about">
         <h2>About Me</h2>
@@ -851,7 +790,6 @@
             </div>
         </div>
     </section>
-
     <!-- Skills Section -->
     <section id="skills">
         <h2>Skills & Expertise</h2>
@@ -898,27 +836,26 @@
             </div>
         </div>
     </section>
-
     <!-- Projects Section -->
     <section id="projects">
         <h2>Featured Projects</h2>
         <div class="projects-grid">
             <div class="project-card">
-                <div class="project-image" style="background-image: url('images/Homezy.png');"></div>
+                <div class="project-image" style="background-image: url('./images/Homezy.png');"></div>
                 <div class="project-content">
                     <h3>Homezy</h3>
                     <p>Homezy is a full-stack rental platform for booking and listing stays, featuring user authentication, property uploads, real-time availability, and secure payments. Built with a responsive UI and dynamic backend to deliver a seamless user experience.</p>
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-image" style="background-image: url('images/Trinoyon.png');"></div>
+                <div class="project-image" style="background-image: url('./images/Trinoyon.png');"></div>
                 <div class="project-content">
                     <h3>Trinoyon</h3>
                     <p>Trinoyon is an interactive fundraising website that combines cultural engagement with social impact. It features games, quizzes, a Pujo gallery, and a virtual Pujo space where users can share festival photos and contribute donations to support underprivileged communities.</p>
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-image" style="background-image: url('images/Space-Defenders.png');"></div>
+                <div class="project-image" style="background-image: url('./images/Space-Defenders.png');"></div>
                 <div class="project-content">
                     <h3>Space Defenders</h3>
                     <p>Space Defenders is a fast-paced arcade-style shooter game where players control a spaceship to defend against waves of enemy invaders. It features smooth animations, collision detection, increasing difficulty, and responsive controls.</p>
@@ -926,7 +863,6 @@
             </div>
         </div>
     </section>
-
     <!-- Contact Section -->
     <section id="contact">
         <h2>Get In Touch</h2>
@@ -956,7 +892,10 @@
             </div>
         </div>
     </section>
-
+    <!-- 3D AI Robot Display - NO CHAT -->
+    <div class="robot-display-container" onclick="triggerRobotDance()">
+        <canvas id="robot-canvas"></canvas>
+    </div>
     <!-- 3D Pikachu Chat Bubble -->
     <div class="pikachu-chat-container" onclick="toggleChat()" onmouseenter="showPikachuMessage()" onmouseleave="hidePikachuMessage()">
         <div class="pikachu-message" id="pikachuMessage">
@@ -964,7 +903,6 @@
         </div>
         <canvas id="pikachu-canvas"></canvas>
     </div>
-
     <!-- Chat Interface -->
     <div class="chat-interface" id="chatInterface">
         <div class="chat-header">
@@ -981,30 +919,7 @@
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
-
-    <!-- Firebase Scripts -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
-        
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyC-ylkj1xsVh6W08hmEEzN2jqsNj7ywGy0",
-            authDomain: "arijit-s-portfolio.firebaseapp.com",
-            projectId: "arijit-s-portfolio",
-            storageBucket: "arijit-s-portfolio.firebasestorage.app",
-            messagingSenderId: "595023540361",
-            appId: "1:595023540361:web:67ae8c026dc49ec5895658",
-            measurementId: "G-WVC9F9FRLH"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-    </script>
-
-    <!-- Main JavaScript -->
+   
     <script>
         // Global variables
         let scene, camera, renderer, particles, geometryShapes, mouse, raycaster;
@@ -1012,15 +927,20 @@
         let windowHalfX = window.innerWidth / 2;
         let windowHalfY = window.innerHeight / 2;
         let animationId;
-
         // Pikachu 3D model variables
         let pikachuScene, pikachuCamera, pikachuRenderer, pikachuMesh;
         let pikachuContainer, isHoveringPikachu = false;
         let pikachuAnimationId;
-
-        // Chat functionality
+        // AI Robot 3D model variables
+        let robotScene, robotCamera, robotRenderer, robotMesh;
+        let robotContainer;
+        let robotAnimationId;
+        let robotParts = {};
+        let isDancing = false;
+        let danceStartTime = 0;
+        const danceDuration = 3000; // 3 seconds
+        // Chat functionality (only for Pikachu)
         let chatOpen = false;
-
         // Check Three.js availability
         function checkThreeJS() {
             if (typeof THREE === 'undefined') {
@@ -1030,28 +950,23 @@
             console.log('Three.js loaded successfully');
             return true;
         }
-
         // Initialize Three.js background scene
         function initThreeJS() {
             if (!checkThreeJS()) return;
-
             const canvas = document.getElementById('threejs-canvas');
             if (!canvas) {
                 console.error('Three.js canvas not found');
                 return;
             }
-
             try {
                 // Scene setup
                 scene = new THREE.Scene();
-
                 // Camera setup
                 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
                 camera.position.z = 50;
-
                 // Renderer setup
-                renderer = new THREE.WebGLRenderer({ 
-                    canvas: canvas,
+                renderer = new THREE.WebGLRenderer({
+                     canvas: canvas,
                     alpha: true,
                     antialias: true,
                     powerPreference: "high-performance"
@@ -1059,92 +974,302 @@
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setClearColor(0x000000, 0);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
                 // Initialize mouse and raycaster
                 mouse = new THREE.Vector2();
                 raycaster = new THREE.Raycaster();
-
                 // Create scene elements
                 createParticleSystem();
                 createGeometricShapes();
                 createConnectionLines();
-                
                 // Start animation
                 animate();
-
                 console.log('Three.js background initialized successfully');
             } catch (error) {
                 console.error('Error initializing Three.js background:', error);
             }
         }
-
         // Initialize Pikachu 3D model
         function initPikachu() {
             if (!checkThreeJS()) return;
-
             const canvas = document.getElementById('pikachu-canvas');
             const container = document.querySelector('.pikachu-chat-container');
-
             if (!canvas || !container) {
                 console.error('Pikachu canvas or container not found');
                 return;
             }
-
             try {
                 pikachuContainer = container;
-
                 // Scene setup
                 pikachuScene = new THREE.Scene();
                 pikachuCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-                pikachuRenderer = new THREE.WebGLRenderer({ 
-                    canvas: canvas,
+                pikachuRenderer = new THREE.WebGLRenderer({
+                     canvas: canvas,
                     alpha: true,
                     antialias: true
                 });
-
                 const size = Math.min(container.clientWidth, container.clientHeight);
                 pikachuRenderer.setSize(size, size);
                 pikachuRenderer.setClearColor(0x000000, 0);
                 pikachuRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
                 // Lighting setup
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
                 pikachuScene.add(ambientLight);
-
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
                 directionalLight.position.set(5, 5, 5);
                 pikachuScene.add(directionalLight);
-
                 // Create Pikachu model
                 createDetailedPikachu();
-
                 // Camera positioning
                 pikachuCamera.position.set(0, 0, 8);
                 pikachuCamera.lookAt(0, -0.2, 0);
-
                 // Start Pikachu animation
                 animatePikachu();
-
                 console.log('Pikachu 3D model initialized successfully');
             } catch (error) {
                 console.error('Error initializing Pikachu:', error);
             }
         }
-
+        // Initialize AI Robot 3D model
+        function initRobot() {
+            if (!checkThreeJS()) return;
+            const canvas = document.getElementById('robot-canvas');
+            const container = document.querySelector('.robot-display-container');
+            if (!canvas || !container) {
+                console.error('Robot canvas or container not found');
+                return;
+            }
+            try {
+                robotContainer = container;
+                // Scene setup
+                robotScene = new THREE.Scene();
+                robotCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+                robotRenderer = new THREE.WebGLRenderer({
+                     canvas: canvas,
+                    alpha: true,
+                    antialias: true
+                });
+                const size = Math.min(container.clientWidth, container.clientHeight);
+                robotRenderer.setSize(size, size);
+                robotRenderer.setClearColor(0x000000, 0);
+                robotRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                robotRenderer.shadowMap.enabled = true;
+                robotRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                // Enhanced lighting setup for better visibility
+                const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+                robotScene.add(ambientLight);
+                const directionalLight = new THREE.DirectionalLight(0x00ffff, 1.2);
+                directionalLight.position.set(5, 5, 5);
+                directionalLight.castShadow = true;
+                robotScene.add(directionalLight);
+                const pointLight1 = new THREE.PointLight(0xff00ff, 1, 30);
+                pointLight1.position.set(-5, 2, -5);
+                robotScene.add(pointLight1);
+                const pointLight2 = new THREE.PointLight(0x00ff00, 0.8, 25);
+                pointLight2.position.set(5, -2, 5);
+                robotScene.add(pointLight2);
+                // Create AI Robot model
+                createEnhancedAIRobot();
+                // Camera positioning
+                robotCamera.position.set(0, 2, 10);
+                robotCamera.lookAt(0, 0, 0);
+                // Start Robot animation
+                animateRobot();
+                console.log('AI Robot 3D model initialized successfully');
+            } catch (error) {
+                console.error('Error initializing AI Robot:', error);
+            }
+        }
+        // Create the Enhanced AI Robot with bright colors
+        function createEnhancedAIRobot() {
+            const robotGroup = new THREE.Group();
+            robotGroup.position.y = -1.5;
+            // Enhanced Materials with attractive colors on black background
+            const bodyMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0xFFFFFF, // White body
+                metalness: 0.9,
+                roughness: 0.1,
+                clearcoat: 1,
+                clearcoatRoughness: 0.1,
+                emissive: 0x333333, // Subtle dark emissive for contrast
+                emissiveIntensity: 0.2
+            });
+            const accentMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x00ffff, // Bright cyan
+                metalness: 0.8,
+                roughness: 0.2,
+                emissive: 0x004444,
+                emissiveIntensity: 0.4
+            });
+            const glowMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x00ff88, // Bright green
+                emissive: 0x00ff88,
+                emissiveIntensity: 1.2,
+                transparent: true,
+                opacity: 0.9
+            });
+            const brightAccentMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0xff4444, // Bright red
+                metalness: 0.7,
+                roughness: 0.3,
+                emissive: 0x330000,
+                emissiveIntensity: 0.3
+            });
+            // Head - Larger
+            const headGeometry = new THREE.BoxGeometry(2, 1.6, 1.6);
+            const head = new THREE.Mesh(headGeometry, bodyMaterial);
+            head.position.y = 4;
+            head.castShadow = true;
+            robotGroup.add(head);
+            robotParts.head = head;
+            // Eyes (glowing) - Larger and brighter
+            const eyeGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+            const leftEye = new THREE.Mesh(eyeGeometry, glowMaterial);
+            leftEye.position.set(-0.4, 4.2, 0.85);
+            robotGroup.add(leftEye);
+            robotParts.leftEye = leftEye;
+            const rightEye = new THREE.Mesh(eyeGeometry, glowMaterial);
+            rightEye.position.set(0.4, 4.2, 0.85);
+            robotGroup.add(rightEye);
+            robotParts.rightEye = rightEye;
+            // Antenna - Brighter
+            const antennaGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.8);
+            const antenna = new THREE.Mesh(antennaGeometry, accentMaterial);
+            antenna.position.set(0, 5.2, 0);
+            robotGroup.add(antenna);
+            robotParts.antenna = antenna;
+            const antennaTipGeometry = new THREE.SphereGeometry(0.15, 8, 8);
+            const antennaTip = new THREE.Mesh(antennaTipGeometry, glowMaterial);
+            antennaTip.position.set(0, 5.6, 0);
+            robotGroup.add(antennaTip);
+            robotParts.antennaTip = antennaTip;
+            // Torso - Larger
+            const torsoGeometry = new THREE.BoxGeometry(2.5, 3, 2);
+            const torso = new THREE.Mesh(torsoGeometry, bodyMaterial);
+            torso.position.y = 1.8;
+            torso.castShadow = true;
+            robotGroup.add(torso);
+            robotParts.torso = torso;
+            // Core (glowing center) - Larger and brighter
+            const coreGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+            const core = new THREE.Mesh(coreGeometry, glowMaterial);
+            core.position.set(0, 2.2, 1.05);
+            robotGroup.add(core);
+            robotParts.core = core;
+            // Chest details
+            const chestDetailGeometry = new THREE.BoxGeometry(1.8, 1.5, 0.1);
+            const chestDetail = new THREE.Mesh(chestDetailGeometry, accentMaterial);
+            chestDetail.position.set(0, 2.5, 1.05);
+            robotGroup.add(chestDetail);
+            // Arms (for waving) - Larger
+            createEnhancedRobotArm(-1.6, 2.8, 0, 'left');
+            createEnhancedRobotArm(1.6, 2.8, 0, 'right');
+            // Legs - Larger
+            createEnhancedRobotLeg(-0.7, -0.3, 0, 'left');
+            createEnhancedRobotLeg(0.7, -0.3, 0, 'right');
+            robotMesh = robotGroup;
+            robotScene.add(robotMesh);
+            // Helper function to create enhanced robot arms
+            function createEnhancedRobotArm(x, y, z, side) {
+                const armGroup = new THREE.Group();
+                // Shoulder - Larger
+                const shoulderGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+                const shoulder = new THREE.Mesh(shoulderGeometry, brightAccentMaterial);
+                shoulder.castShadow = true;
+                armGroup.add(shoulder);
+                // Upper arm - Larger
+                const upperArmGeometry = new THREE.CylinderGeometry(0.3, 0.3, 1.5);
+                const upperArm = new THREE.Mesh(upperArmGeometry, bodyMaterial);
+                upperArm.position.y = -1;
+                upperArm.castShadow = true;
+                armGroup.add(upperArm);
+                // Elbow - Larger and brighter
+                const elbowGeometry = new THREE.SphereGeometry(0.35, 16, 16);
+                const elbow = new THREE.Mesh(elbowGeometry, accentMaterial);
+                elbow.position.y = -1.8;
+                armGroup.add(elbow);
+                // Lower arm - Larger
+                const lowerArmGeometry = new THREE.CylinderGeometry(0.25, 0.25, 1.5);
+                const lowerArm = new THREE.Mesh(lowerArmGeometry, bodyMaterial);
+                lowerArm.position.y = -2.8;
+                lowerArm.castShadow = true;
+                armGroup.add(lowerArm);
+                // Hand - Larger
+                const handGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+                const hand = new THREE.Mesh(handGeometry, brightAccentMaterial);
+                hand.position.y = -3.7;
+                hand.castShadow = true;
+                armGroup.add(hand);
+                // Fingers - More visible
+                for (let i = 0; i < 4; i++) {
+                    const fingerGeometry = new THREE.BoxGeometry(0.12, 0.4, 0.12);
+                    const finger = new THREE.Mesh(fingerGeometry, accentMaterial);
+                    finger.position.set((i - 1.5) * 0.15, -4.1, 0.25);
+                    armGroup.add(finger);
+                }
+                armGroup.position.set(x, y, z);
+                robotGroup.add(armGroup);
+                robotParts[side + 'Arm'] = armGroup;
+            }
+            // Helper function to create enhanced robot legs
+            function createEnhancedRobotLeg(x, y, z, side) {
+                const legGroup = new THREE.Group();
+                // Upper leg - Larger
+                const upperLegGeometry = new THREE.CylinderGeometry(0.4, 0.4, 2);
+                const upperLeg = new THREE.Mesh(upperLegGeometry, bodyMaterial);
+                upperLeg.position.y = -1.2;
+                upperLeg.castShadow = true;
+                legGroup.add(upperLeg);
+                // Knee - Larger and brighter
+                const kneeGeometry = new THREE.SphereGeometry(0.45, 16, 16);
+                const knee = new THREE.Mesh(kneeGeometry, accentMaterial);
+                knee.position.y = -2.2;
+                legGroup.add(knee);
+                // Lower leg - Larger
+                const lowerLegGeometry = new THREE.CylinderGeometry(0.35, 0.35, 2);
+                const lowerLeg = new THREE.Mesh(lowerLegGeometry, bodyMaterial);
+                lowerLeg.position.y = -3.4;
+                lowerLeg.castShadow = true;
+                legGroup.add(lowerLeg);
+                // Foot - Larger
+                const footGeometry = new THREE.BoxGeometry(1, 0.4, 1.6);
+                const foot = new THREE.Mesh(footGeometry, brightAccentMaterial);
+                foot.position.set(0, -4.6, 0.3);
+                foot.castShadow = true;
+                legGroup.add(foot);
+                legGroup.position.set(x, y, z);
+                robotGroup.add(legGroup);
+                robotParts[side + 'Leg'] = legGroup;
+            }
+        }
+        // Trigger robot dance animation
+        function triggerRobotDance() {
+            if (isDancing) return; // Prevent multiple simultaneous dances
+            isDancing = true;
+            danceStartTime = Date.now();
+            // Reset after duration
+            setTimeout(() => {
+                isDancing = false;
+                // Reset parts to idle positions/rotations if needed
+                if (robotParts.leftArm) robotParts.leftArm.rotation.set(0, 0, 0);
+                if (robotParts.rightArm) robotParts.rightArm.rotation.set(0, 0, 0);
+                if (robotParts.leftLeg) robotParts.leftLeg.rotation.set(0, 0, 0);
+                if (robotParts.rightLeg) robotParts.rightLeg.rotation.set(0, 0, 0);
+                if (robotParts.head) robotParts.head.rotation.set(0, 0, 0);
+                robotMesh.position.y = -1.5; // Reset vertical position
+                robotMesh.rotation.y = 0; // Reset overall rotation
+            }, danceDuration);
+        }
         // Create particle system for background
         function createParticleSystem() {
             const particleCount = window.innerWidth < 768 ? 200 : 500;
             const geometry = new THREE.BufferGeometry();
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
-
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
-                
                 positions[i3] = (Math.random() - 0.5) * 200;
                 positions[i3 + 1] = (Math.random() - 0.5) * 200;
                 positions[i3 + 2] = (Math.random() - 0.5) * 100;
-                
                 const colorChoice = Math.random();
                 if (colorChoice < 0.33) {
                     colors[i3] = 0; colors[i3 + 1] = 0.83; colors[i3 + 2] = 1; // Cyan
@@ -1154,10 +1279,8 @@
                     colors[i3] = 1; colors[i3 + 1] = 0.67; colors[i3 + 2] = 0; // Orange
                 }
             }
-
             geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
             const material = new THREE.PointsMaterial({
                 size: window.innerWidth < 768 ? 1.5 : 2,
                 vertexColors: true,
@@ -1165,29 +1288,22 @@
                 opacity: 0.8,
                 blending: THREE.AdditiveBlending
             });
-
             particles = new THREE.Points(geometry, material);
             scene.add(particles);
         }
-
         // Create floating geometric shapes
         function createGeometricShapes() {
             geometryShapes = new THREE.Group();
-
             // Lighting for shapes
             const ambientLight = new THREE.AmbientLight(0x404040, 1);
             scene.add(ambientLight);
-
             const directionalLight = new THREE.DirectionalLight(0x00d4ff, 0.8);
             directionalLight.position.set(10, 10, 5);
             scene.add(directionalLight);
-
             const shapeCount = window.innerWidth < 768 ? 4 : 8;
-
             for (let i = 0; i < shapeCount; i++) {
                 let geometry;
                 const shapeType = i % 4;
-                
                 switch(shapeType) {
                     case 0:
                         geometry = new THREE.BoxGeometry(2, 2, 2);
@@ -1202,25 +1318,20 @@
                         geometry = new THREE.CylinderGeometry(1, 1, 2, 8);
                         break;
                 }
-                
                 const colors = [0x00d4ff, 0xff00ff, 0xffaa00];
                 const color = colors[i % colors.length];
-                
-                const material = new THREE.MeshPhongMaterial({ 
-                    color: color,
+                const material = new THREE.MeshPhongMaterial({
+                     color: color,
                     transparent: true,
                     opacity: 0.7,
                     wireframe: i % 2 === 0
                 });
-                
                 const mesh = new THREE.Mesh(geometry, material);
-                
                 mesh.position.set(
                     (Math.random() - 0.5) * 100,
                     (Math.random() - 0.5) * 100,
                     (Math.random() - 0.5) * 50
                 );
-                
                 mesh.userData = {
                     originalPosition: mesh.position.clone(),
                     rotationSpeed: {
@@ -1229,17 +1340,13 @@
                         z: (Math.random() - 0.5) * 0.02
                     }
                 };
-                
                 geometryShapes.add(mesh);
             }
-            
             scene.add(geometryShapes);
         }
-
         // Create connection lines between shapes
         function createConnectionLines() {
             if (!geometryShapes || geometryShapes.children.length < 2) return;
-
             const lineGeometry = new THREE.BufferGeometry();
             const lineMaterial = new THREE.LineBasicMaterial({
                 color: 0x00d4ff,
@@ -1247,139 +1354,113 @@
                 opacity: 0.3,
                 blending: THREE.AdditiveBlending
             });
-
             const positions = [];
             for (let i = 0; i < geometryShapes.children.length - 1; i++) {
                 if (Math.random() > 0.7) {
                     const shape1 = geometryShapes.children[i];
                     const shape2 = geometryShapes.children[i + 1];
-                    
                     positions.push(
                         shape1.position.x, shape1.position.y, shape1.position.z,
                         shape2.position.x, shape2.position.y, shape2.position.z
                     );
                 }
             }
-
             if (positions.length > 0) {
                 lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
                 const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
                 scene.add(lines);
             }
         }
-
         // Create detailed Pikachu model
         function createDetailedPikachu() {
             const pikachuGroup = new THREE.Group();
-
             // Main body
             const bodyGeometry = new THREE.SphereGeometry(1.2, 32, 32);
-            const bodyMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFD700,
+            const bodyMaterial = new THREE.MeshPhongMaterial({
+                 color: 0xFFD700,
                 shininess: 30
             });
             const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
             body.position.y = -0.8;
             body.scale.set(1.1, 0.9, 1);
             pikachuGroup.add(body);
-
             // Head
             const headGeometry = new THREE.SphereGeometry(1, 32, 32);
-            const headMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFD700,
+            const headMaterial = new THREE.MeshPhongMaterial({
+                 color: 0xFFD700,
                 shininess: 30
             });
             const head = new THREE.Mesh(headGeometry, headMaterial);
             head.position.y = 0.3;
             pikachuGroup.add(head);
-
             // Ears
             const earGeometry = new THREE.ConeGeometry(0.25, 1.2, 16);
             const earMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
             const leftEar = new THREE.Mesh(earGeometry, earMaterial);
             leftEar.position.set(-0.5, 1.2, 0);
             leftEar.rotation.z = -0.3;
             pikachuGroup.add(leftEar);
-
             const rightEar = new THREE.Mesh(earGeometry, earMaterial);
             rightEar.position.set(0.5, 1.2, 0);
             rightEar.rotation.z = 0.3;
             pikachuGroup.add(rightEar);
-
             // Ear tips
             const earTipGeometry = new THREE.SphereGeometry(0.15, 16, 16);
             const earTipMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
-
             const leftEarTip = new THREE.Mesh(earTipGeometry, earTipMaterial);
             leftEarTip.position.set(-0.6, 1.7, 0);
             pikachuGroup.add(leftEarTip);
-
             const rightEarTip = new THREE.Mesh(earTipGeometry, earTipMaterial);
             rightEarTip.position.set(0.6, 1.7, 0);
             pikachuGroup.add(rightEarTip);
-
             // Eyes
             const eyeGeometry = new THREE.SphereGeometry(0.15, 16, 16);
             const eyeMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
-
             const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
             leftEye.position.set(-0.25, 0.5, 0.85);
             pikachuGroup.add(leftEye);
-
             const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
             rightEye.position.set(0.25, 0.5, 0.85);
             pikachuGroup.add(rightEye);
-
             // Eye highlights
             const highlightGeometry = new THREE.SphereGeometry(0.05, 12, 12);
             const highlightMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFFFF });
-
             const leftHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
             leftHighlight.position.set(-0.22, 0.55, 0.9);
             pikachuGroup.add(leftHighlight);
-
             const rightHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
             rightHighlight.position.set(0.28, 0.55, 0.9);
             pikachuGroup.add(rightHighlight);
-
             // Cheeks
             const cheekGeometry = new THREE.SphereGeometry(0.2, 16, 16);
             const cheekMaterial = new THREE.MeshPhongMaterial({ color: 0xFF4444 });
-
             const leftCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
             leftCheek.position.set(-0.6, 0.2, 0.7);
             leftCheek.scale.set(1, 1, 0.3);
             pikachuGroup.add(leftCheek);
-
             const rightCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
             rightCheek.position.set(0.6, 0.2, 0.7);
             rightCheek.scale.set(1, 1, 0.3);
             pikachuGroup.add(rightCheek);
-
             // Nose
             const noseGeometry = new THREE.SphereGeometry(0.03, 8, 8);
             const noseMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
             const nose = new THREE.Mesh(noseGeometry, noseMaterial);
             nose.position.set(0, 0.35, 0.95);
             pikachuGroup.add(nose);
-
             // Arms
             const armGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.6, 12);
             const armMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
-
             const leftArm = new THREE.Mesh(armGeometry, armMaterial);
             leftArm.position.set(-0.7, -0.2, 0.3);
             leftArm.rotation.z = 0.5;
             leftArm.rotation.x = -0.3;
             pikachuGroup.add(leftArm);
-
             const rightArm = new THREE.Mesh(armGeometry, armMaterial);
             rightArm.position.set(0.7, -0.2, 0.3);
             rightArm.rotation.z = -0.5;
             rightArm.rotation.x = -0.3;
             pikachuGroup.add(rightArm);
-
             // Lightning bolt tail
             const tailGroup = new THREE.Group();
             const tailSegments = [
@@ -1388,7 +1469,6 @@
                 { width: 0.15, height: 0.5, x: 0, y: 0.6 },
                 { width: 0.2, height: 0.3, x: -0.1, y: 0.9 }
             ];
-
             tailSegments.forEach((segment, index) => {
                 const segmentGeometry = new THREE.BoxGeometry(segment.width, segment.height, 0.1);
                 const segmentMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD700 });
@@ -1396,55 +1476,43 @@
                 segmentMesh.position.set(segment.x, segment.y, 0);
                 tailGroup.add(segmentMesh);
             });
-
             tailGroup.position.set(0, -0.3, -1);
             tailGroup.rotation.y = -0.2;
             tailGroup.rotation.x = 0.1;
             pikachuGroup.add(tailGroup);
-
             pikachuMesh = pikachuGroup;
             pikachuScene.add(pikachuMesh);
         }
-
         // Animation loop for background scene
         function animate() {
             if (!renderer || !scene || !camera) return;
-
             animationId = requestAnimationFrame(animate);
-
             const time = Date.now() * 0.001;
-
             // Animate particles
             if (particles) {
                 particles.rotation.y = time * 0.1;
                 particles.rotation.x = time * 0.05;
-                
                 const positions = particles.geometry.attributes.position.array;
                 for (let i = 0; i < positions.length; i += 3) {
                     positions[i + 1] += Math.sin(time + positions[i] * 0.01) * 0.1;
                 }
                 particles.geometry.attributes.position.needsUpdate = true;
             }
-
             // Animate geometric shapes
             if (geometryShapes && geometryShapes.children) {
                 geometryShapes.children.forEach((shape, index) => {
                     if (!shape.userData) return;
-                    
                     shape.rotation.x += shape.userData.rotationSpeed.x;
                     shape.rotation.y += shape.userData.rotationSpeed.y;
                     shape.rotation.z += shape.userData.rotationSpeed.z;
-                    
                     shape.position.y = shape.userData.originalPosition.y + Math.sin(time + index) * 2;
                     shape.position.x = shape.userData.originalPosition.x + Math.cos(time + index * 0.5) * 1;
-                    
                     // Mouse interaction
                     if (mouseX !== undefined && mouseY !== undefined) {
                         const distance = Math.sqrt(
                             Math.pow(shape.position.x - mouseX * 5, 2) +
                             Math.pow(shape.position.y - mouseY * 5, 2)
                         );
-                        
                         if (distance < 15) {
                             shape.material.opacity = 0.9;
                             shape.scale.setScalar(1.2);
@@ -1455,28 +1523,21 @@
                     }
                 });
             }
-
             // Camera movement based on mouse
             if (mouseX !== undefined && mouseY !== undefined) {
                 camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
                 camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
             }
             camera.lookAt(scene.position);
-
             renderer.render(scene, camera);
         }
-
         // Animation loop for Pikachu
         function animatePikachu() {
             if (!pikachuRenderer || !pikachuScene || !pikachuCamera || !pikachuMesh) return;
-
             pikachuAnimationId = requestAnimationFrame(animatePikachu);
-
             const time = Date.now() * 0.002;
-
             // Gentle floating animation
             pikachuMesh.position.y = Math.sin(time) * 0.05;
-
             // Rotation based on hover state
             if (isHoveringPikachu) {
                 pikachuMesh.rotation.y += 0.03;
@@ -1487,55 +1548,135 @@
                 pikachuMesh.rotation.x = Math.sin(time) * 0.02;
                 pikachuMesh.scale.setScalar(1);
             }
-
             pikachuRenderer.render(pikachuScene, pikachuCamera);
         }
+        function animateRobot() {
+            if (!robotRenderer || !robotScene || !robotCamera || !robotMesh) return;
+            robotAnimationId = requestAnimationFrame(animateRobot);
+            const time = Date.now() * 0.001;
+            const danceProgress = (Date.now() - danceStartTime) / danceDuration;
+            const danceFactor = Math.sin(danceProgress * Math.PI); // Smooth curve from 0 to 1 and back to 0
 
+            if (isDancing) {
+                // Overall robot movement
+                robotMesh.position.y = -1.5 + Math.sin(time * 10) * 0.5; // Up and down bounce
+                robotMesh.rotation.y += 0.1; // Spin
+                robotMesh.rotation.x = Math.sin(time * 5) * 0.2; // Tilt
+
+                // Arms dancing
+                if (robotParts.leftArm) {
+                    robotParts.leftArm.rotation.z = Math.sin(time * 15) * 0.8 + 0.5; // Swing up and down
+                    robotParts.leftArm.rotation.x = Math.cos(time * 10) * 0.5; // Rotate forward/backward
+                }
+                if (robotParts.rightArm) {
+                    robotParts.rightArm.rotation.z = -Math.sin(time * 15) * 0.8 - 0.5; // Swing up and down (opposite)
+                    robotParts.rightArm.rotation.x = -Math.cos(time * 10) * 0.5; // Rotate forward/backward (opposite)
+                }
+
+                // Legs dancing
+                if (robotParts.leftLeg) {
+                    robotParts.leftLeg.rotation.x = Math.sin(time * 20) * 0.4; // Kick forward/backward
+                }
+                if (robotParts.rightLeg) {
+                    robotParts.rightLeg.rotation.x = -Math.sin(time * 20) * 0.4; // Kick forward/backward (opposite)
+                }
+
+                // Head bobbing
+                if (robotParts.head) {
+                    robotParts.head.rotation.x = Math.sin(time * 25) * 0.3; // Bob up and down
+                    robotParts.head.rotation.y = Math.cos(time * 20) * 0.3; // Turn left/right
+                }
+
+                // Enhanced glow during dance
+                const danceGlowIntensity = 2.5 + Math.sin(time * 30) * 1.5;
+                if (robotParts.core) robotParts.core.material.emissiveIntensity = danceGlowIntensity;
+                if (robotParts.antennaTip) robotParts.antennaTip.material.emissiveIntensity = danceGlowIntensity;
+                if (robotParts.leftEye) robotParts.leftEye.material.emissiveIntensity = danceGlowIntensity;
+                if (robotParts.rightEye) robotParts.rightEye.material.emissiveIntensity = danceGlowIntensity;
+
+            } else {
+                // Idle animations
+                robotMesh.position.y = -1.5 + Math.sin(time * 0.5) * 0.3; // Gentle floating
+                robotMesh.rotation.y += 0.005; // Slow idle rotation
+
+                if (robotParts.head) {
+                    robotParts.head.rotation.y = Math.sin(time * 0.3) * 0.15;
+                    robotParts.head.rotation.x = Math.sin(time * 0.4) * 0.08;
+                }
+                if (robotParts.antenna) {
+                    robotParts.antenna.rotation.z = Math.sin(time * 2) * 0.1;
+                }
+                if (robotParts.antennaTip) {
+                    robotParts.antennaTip.material.emissiveIntensity = 1.2 + Math.sin(time * 3) * 0.4;
+                }
+                if (robotParts.leftEye && robotParts.rightEye) {
+                    const eyeIntensity = 1.2 + Math.sin(time * 4) * 0.3;
+                    robotParts.leftEye.material.emissiveIntensity = eyeIntensity;
+                    robotParts.rightEye.material.emissiveIntensity = eyeIntensity;
+                }
+                if (robotParts.core) {
+                    robotParts.core.material.emissiveIntensity = 1.2 + Math.sin(time * 2) * 0.5;
+                    robotParts.core.scale.setScalar(1 + Math.sin(time * 2) * 0.15);
+                }
+                if (robotParts.leftArm) {
+                    robotParts.leftArm.rotation.z = Math.sin(time * 1) * 0.2 + 0.1;
+                    robotParts.leftArm.rotation.x = Math.sin(time * 1.2) * 0.1;
+                    robotParts.leftArm.rotation.y = 0;
+                }
+                if (robotParts.rightArm) {
+                    robotParts.rightArm.rotation.z = -Math.sin(time * 1) * 0.2 - 0.1;
+                    robotParts.rightArm.rotation.x = Math.sin(time * 1.2 + Math.PI) * 0.1;
+                    robotParts.rightArm.rotation.y = 0;
+                }
+                if (robotParts.torso) {
+                    robotParts.torso.scale.y = 1 + Math.sin(time * 1.5) * 0.05;
+                }
+            }
+            // Render the scene
+            robotRenderer.render(robotScene, robotCamera);
+        }
         // Event handlers
         function onMouseMove(event) {
             mouseX = (event.clientX - windowHalfX) / 100;
             mouseY = (event.clientY - windowHalfY) / 100;
-
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         }
-
         function onWindowResize() {
             windowHalfX = window.innerWidth / 2;
             windowHalfY = window.innerHeight / 2;
-
             if (camera && renderer) {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             }
-
             // Resize Pikachu canvas
             if (pikachuRenderer && pikachuContainer) {
                 const size = Math.min(pikachuContainer.clientWidth, pikachuContainer.clientHeight);
                 pikachuRenderer.setSize(size, size);
             }
+            // Resize Robot canvas
+            if (robotRenderer && robotContainer) {
+                const size = Math.min(robotContainer.clientWidth, robotContainer.clientHeight);
+                robotRenderer.setSize(size, size);
+            }
         }
-
-        // Chat functions
+        // Chat functions (only for Pikachu)
         function toggleChat() {
             const chatInterface = document.getElementById('chatInterface');
             const chatMessages = document.getElementById('chatMessages');
             chatOpen = !chatOpen;
             chatInterface.style.display = chatOpen ? 'flex' : 'none';
-
             if (chatOpen) {
                 chatMessages.innerHTML = '';
                 addMessage("Hi! I'm Arijit's Pikachu (an AI assistant), what do you want to know about me?", 'bot');
             }
         }
-
         function closeChat() {
             const chatInterface = document.getElementById('chatInterface');
             chatOpen = false;
             chatInterface.style.display = 'none';
         }
-
         function showPikachuMessage() {
             const message = document.getElementById('pikachuMessage');
             if (!chatOpen) {
@@ -1543,20 +1684,17 @@
             }
             isHoveringPikachu = true;
         }
-
         function hidePikachuMessage() {
             const message = document.getElementById('pikachuMessage');
             message.classList.remove('show');
             isHoveringPikachu = false;
         }
-
         function handleKeyPress(event) {
             if (event.key === 'Enter') {
                 sendMessage();
             }
         }
-
-        async function sendMessage() {
+         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             
@@ -1635,32 +1773,36 @@
                 throw error;
             }
         }
-
-  // Initialize everything when DOM is loaded
+        // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, initializing...');
-            
             // Initialize Three.js components
             setTimeout(() => {
                 initThreeJS();
                 initPikachu();
+                initRobot(); // Initialize the AI Robot
+                // Add robot click functionality after initialization
+                setTimeout(() => {
+                    const robotCanvas = document.getElementById('robot-canvas');
+                    if (robotCanvas) {
+                        robotCanvas.addEventListener('click', triggerRobotDance); // Updated function name
+                        robotCanvas.style.cursor = 'pointer';
+                        console.log('Robot click event added successfully');
+                    }
+                }, 500);
             }, 100);
-
             // Add event listeners
             document.addEventListener('mousemove', onMouseMove, false);
             window.addEventListener('resize', onWindowResize, false);
-
             // Smooth scrolling for navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
                     const targetElement = document.querySelector(targetId);
-                    
                     if (targetElement) {
                         const headerHeight = document.querySelector('header').offsetHeight;
                         const targetPosition = targetElement.offsetTop - headerHeight;
-                        
                         window.scrollTo({
                             top: targetPosition,
                             behavior: 'smooth'
@@ -1668,25 +1810,20 @@
                     }
                 });
             });
-
             // Mobile menu functionality
             const mobileMenu = document.querySelector('.mobile-menu');
             const navLinks = document.querySelector('.nav-links');
-            
             if (mobileMenu && navLinks) {
                 mobileMenu.addEventListener('click', function() {
                     navLinks.classList.toggle('active');
                     this.classList.toggle('active');
                 });
             }
-
             // Header scroll effect
             let lastScrollTop = 0;
             const header = document.querySelector('header');
-            
             window.addEventListener('scroll', function() {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
                 if (scrollTop > lastScrollTop && scrollTop > 100) {
                     // Scrolling down
                     header.style.transform = 'translateY(-100%)';
@@ -1694,16 +1831,13 @@
                     // Scrolling up
                     header.style.transform = 'translateY(0)';
                 }
-                
                 lastScrollTop = scrollTop;
             });
-
             // Intersection Observer for animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
             };
-
             const observer = new IntersectionObserver(function(entries) {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1712,7 +1846,6 @@
                     }
                 });
             }, observerOptions);
-
             // Observe sections for scroll animations
             document.querySelectorAll('section').forEach(section => {
                 section.style.opacity = '0';
@@ -1720,14 +1853,12 @@
                 section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 observer.observe(section);
             });
-
             // Typing effect for hero subtitle
             const subtitle = document.querySelector('.hero-content .subtitle');
             if (subtitle) {
                 const text = subtitle.textContent;
                 subtitle.textContent = '';
                 let i = 0;
-                
                 function typeWriter() {
                     if (i < text.length) {
                         subtitle.textContent += text.charAt(i);
@@ -1735,21 +1866,17 @@
                         setTimeout(typeWriter, 50);
                     }
                 }
-                
                 setTimeout(typeWriter, 1000);
             }
-
             // Parallax effect for hero section
             window.addEventListener('scroll', function() {
                 const scrolled = window.pageYOffset;
                 const hero = document.querySelector('.hero');
                 const heroContent = document.querySelector('.hero-content');
-                
                 if (hero && heroContent) {
                     heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
                 }
             });
-
             // Add loading animation
             const loader = document.createElement('div');
             loader.innerHTML = `
@@ -1768,12 +1895,10 @@
                         opacity: 1;
                         transition: opacity 0.5s ease;
                     }
-                    
                     .loader-content {
                         text-align: center;
                         color: #fff;
                     }
-                    
                     .loader-logo {
                         font-size: 3rem;
                         font-weight: bold;
@@ -1784,13 +1909,11 @@
                         margin-bottom: 1rem;
                         animation: pulse 2s infinite;
                     }
-                    
                     .loader-text {
                         font-size: 1.2rem;
                         color: #b0b0b0;
                         margin-bottom: 2rem;
                     }
-                    
                     .loader-spinner {
                         width: 50px;
                         height: 50px;
@@ -1800,7 +1923,6 @@
                         animation: spin 1s linear infinite;
                         margin: 0 auto;
                     }
-                    
                     @keyframes spin {
                         0% { transform: rotate(0deg); }
                         100% { transform: rotate(360deg); }
@@ -1814,7 +1936,6 @@
             `;
             loader.className = 'loader';
             document.body.appendChild(loader);
-
             // Remove loader after everything is loaded
             window.addEventListener('load', function() {
                 setTimeout(() => {
@@ -1824,15 +1945,12 @@
                     }, 500);
                 }, 1000);
             });
-
             console.log('Initialization complete');
         });
-
         // Error handling
         window.addEventListener('error', function(e) {
             console.error('Global error:', e.error);
         });
-
         // Cleanup function
         function cleanup() {
             if (animationId) {
@@ -1841,18 +1959,21 @@
             if (pikachuAnimationId) {
                 cancelAnimationFrame(pikachuAnimationId);
             }
-            
+            if (robotAnimationId) {
+                cancelAnimationFrame(robotAnimationId);
+            }
             if (renderer) {
                 renderer.dispose();
             }
             if (pikachuRenderer) {
                 pikachuRenderer.dispose();
             }
+            if (robotRenderer) {
+                robotRenderer.dispose();
+            }
         }
-
         // Cleanup on page unload
         window.addEventListener('beforeunload', cleanup);
-
         // Additional CSS for mobile menu animation
         const mobileMenuStyles = document.createElement('style');
         mobileMenuStyles.textContent = `
@@ -1872,15 +1993,12 @@
                     transition: right 0.3s ease;
                     border-left: 1px solid rgba(0, 212, 255, 0.3);
                 }
-                
                 .nav-links.active {
                     right: 0;
                 }
-                
                 .nav-links li {
                     margin: 1rem 0;
                 }
-                
                 .nav-links a {
                     font-size: 1.2rem;
                     padding: 1rem 2rem;
@@ -1889,37 +2007,30 @@
                     text-align: center;
                     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 }
-                
                 .mobile-menu.active span:nth-child(1) {
                     transform: rotate(-45deg) translate(-5px, 6px);
                 }
-                
                 .mobile-menu.active span:nth-child(2) {
                     opacity: 0;
                 }
-                
                 .mobile-menu.active span:nth-child(3) {
                     transform: rotate(45deg) translate(-5px, -6px);
                 }
             }
         `;
         document.head.appendChild(mobileMenuStyles);
-
         // Performance optimization
         let ticking = false;
-        
         function requestTick() {
             if (!ticking) {
                 requestAnimationFrame(updateAnimations);
             }
             ticking = true;
         }
-        
         function updateAnimations() {
             // Update any performance-heavy animations here
             ticking = false;
         }
-
         // Console welcome message
         console.log('%c Welcome to Arijit\'s Portfolio! ', 'background: linear-gradient(135deg, #00d4ff 0%, #ff00ff 100%); color: white; font-size: 16px; padding: 8px; border-radius: 4px;');
         console.log('%c Built with Three.js, modern CSS, and lots of ⚡ ', 'color: #00d4ff; font-size: 14px;');
