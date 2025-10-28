@@ -2141,6 +2141,7 @@
             };
 
             try {
+                // FIXED: Use relative path - works for both localhost (server.js) and Vercel
                 const response = await fetch('/api/gemini', {
                     method: 'POST',
                     headers: {
@@ -2151,7 +2152,7 @@
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    throw new Error(`API error: ${errorText}`);
+                    throw new Error(`API error (${response.status}): ${errorText}`);
                 }
 
                 const data = await response.json();
