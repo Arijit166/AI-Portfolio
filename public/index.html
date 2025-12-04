@@ -283,12 +283,19 @@
             transform-style: preserve-3d;
             transform: translateZ(0);
             z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 200px; /* Add consistent height */
         }
+
         .skill-card:hover {
             transform: translateY(-10px) translateZ(20px) rotateX(10deg);
             border-color: rgba(0, 212, 255, 0.5);
             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
         }
+
         .skill-icon {
             width: 60px;
             height: 60px;
@@ -301,13 +308,24 @@
             justify-content: center;
             color: white;
             font-size: 1.5rem;
+            flex-shrink: 0; /* Prevent icon from shrinking */
         }
+
         .skill-card h3 {
             color: #ffffff;
             margin-bottom: 1rem;
+            font-size: 1.1rem;
+            min-height: 2.5rem; /* Consistent title height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
         .skill-card p {
             color: #b0b0b0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
         }
         /* Projects Section */
         .projects-grid {
@@ -864,44 +882,51 @@
         <h2>Skills & Expertise</h2>
         <div class="skills-grid">
             <div class="skill-card">
-                <div class="skill-icon">⚡</div>
-                <h3>HTML5</h3>
-                <p>Semantic Markup, Accessibility, Modern Features</p>
+                <div class="skill-icon">💎</div>
+                <h3>TypeScript</h3>
+                <p>Type Safety, Interfaces, Generics, Advanced Types</p>
             </div>
-            <div class="skill-card">
-                <div class="skill-icon">🎨</div>
-                <h3>CSS3</h3>
-                <p>Flexbox, Grid, Animations, Sass</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">🌟</div>
-                <h3>JavaScript</h3>
-                <p>ES6+, DOM, Async/Await</p>
-            </div>
+
             <div class="skill-card">
                 <div class="skill-icon">⚛️</div>
-                <h3>React</h3>
-                <p>Hooks, Context, Redux</p>
+                <h3>Next.js</h3>
+                <p>App Router, SSR/SSG, API Routes, Optimizations</p>
             </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">🧱</div>
+                <h3>Solidity</h3>
+                <p>Smart Contracts, Events, Security Patterns</p>
+            </div>
+
             <div class="skill-card">
                 <div class="skill-icon">🌐</div>
                 <h3>Node.js</h3>
                 <p>Express, REST APIs, WebSockets</p>
             </div>
+
             <div class="skill-card">
                 <div class="skill-icon">🐍</div>
                 <h3>Python</h3>
-                <p>Tkinter, Numpy, Pandas, Matplotlib</p>
+                <p>Numpy, Pandas, Tkinter, Matplotlib</p>
             </div>
+
             <div class="skill-card">
                 <div class="skill-icon">🗄️</div>
                 <h3>MongoDB</h3>
                 <p>Mongoose, Aggregation, Atlas</p>
             </div>
+
             <div class="skill-card">
                 <div class="skill-icon">📊</div>
                 <h3>MySQL</h3>
                 <p>SQL, Database Design, Optimization</p>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">🛠️</div>
+                <h3>DevOps & Tools</h3>
+                <p>Git, Docker, Render, Vercel</p>
             </div>
         </div>
     </section>
@@ -917,11 +942,11 @@
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-image" style="background-image: url('./images/Trinoyon.png');"></div>
+                <div class="project-image" style="background-image: url('./images/Smart-Contract.png');"></div>
                 <div class="project-content">
-                    <h3>Trinoyon</h3>
-                    <p>Trinoyon is an interactive fundraising website that combines cultural engagement with social impact. It features games, quizzes, a Pujo gallery, and a virtual Pujo space where users can share festival photos and contribute donations to support underprivileged communities.</p>
-                </div>
+                    <h3>Smart Contract Auditor</h3>
+                    <p>A decentralized audit platform that lets users upload Solidity code, run vulnerability analysis using LLM + Slither, and generate cryptographic Merkle-based audit proofs. It ensures trust, verified auditor identities, and secure deployment of auto-fixed smart contracts.</p>
+                </div>  
             </div>
             <div class="project-card">
                 <div class="project-image" style="background-image: url('./images/SwiftCart.png');"></div>
@@ -945,10 +970,10 @@
                 </div>
             </div>
             <div class="project-card">
-                <div class="project-image" style="background-image: url('./images/Space-Defenders.png');"></div>
+                <div class="project-image" style="background-image: url('./images/Study-Buddy.png');"></div>
                 <div class="project-content">
-                    <h3>Space Defenders</h3>
-                    <p>Space Defenders is a fast-paced arcade-style shooter game where players control a spaceship to defend against waves of enemy invaders. It features smooth animations, collision detection, increasing difficulty, and responsive controls.</p>
+                    <h3>Study-Buddy</h3>
+                    <p>A personalized learning assistant that helps students study smarter with guided explanations, AI-powered support, and interactive tools. Designed to make complex concepts simple, organized, and easy to revise.</p>
                 </div>
             </div>
         </div>
@@ -2595,6 +2620,11 @@
 
                 utterance.onstart = function() {
                     console.log('🔊 Speaking:', text);
+                    // Update speaker icon to show it's speaking
+                    const speakerButton = document.querySelector('.chat-speaker');
+                    if (speakerButton) {
+                        speakerButton.textContent = '🔊';
+                    }
                     // Add visual indicator that bot is speaking
                     const messages = document.querySelectorAll('.bot-message');
                     const lastBotMessage = messages[messages.length - 1];
@@ -2605,6 +2635,11 @@
 
                 utterance.onend = function() {
                     console.log('✅ Finished speaking');
+                    // Update speaker icon back to muted
+                    const speakerButton = document.querySelector('.chat-speaker');
+                    if (speakerButton) {
+                        speakerButton.textContent = '🔇';
+                    }
                     // Remove visual indicator
                     const messages = document.querySelectorAll('.bot-message');
                     const lastBotMessage = messages[messages.length - 1];
@@ -2615,6 +2650,11 @@
 
                 utterance.onerror = function(event) {
                     console.error('❌ Speech synthesis error:', event.error);
+                    // Reset speaker icon on error
+                    const speakerButton = document.querySelector('.chat-speaker');
+                    if (speakerButton) {
+                        speakerButton.textContent = '🔇';
+                    }
                     if (event.error === 'interrupted') {
                         console.log('Speech was interrupted');
                     }
@@ -2631,6 +2671,11 @@
             if (speechSynthesis.speaking) {
                 speechSynthesis.cancel();
                 console.log('Speech cancelled by user');
+                // Update icon immediately when stopped
+                const speakerButton = document.querySelector('.chat-speaker');
+                if (speakerButton) {
+                    speakerButton.textContent = '🔇';
+                }
             }
         }
     </script>
